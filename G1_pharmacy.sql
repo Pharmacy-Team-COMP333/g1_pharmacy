@@ -2,27 +2,196 @@ drop database g1_pharmcy;
 CREATE DATABASE g1_pharmcy;
 USE g1_pharmcy;
 
-CREATE TABLE Company (
-    CompanyID INT AUTO_INCREMENT PRIMARY KEY,
-    Name VARCHAR(100) NOT NULL,
-    PhoneNumber VARCHAR(20),
-    Address VARCHAR(200)
+
+CREATE TABLE COMPANY (
+    companyID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    phone VARCHAR(20),
+    address VARCHAR(255)
 );
 
-CREATE TABLE InsuranceCompany (
-    CompanyID INT PRIMARY KEY,
-    DiscountPercentage DECIMAL(5, 2),
-    FOREIGN KEY (CompanyID) REFERENCES Company(CompanyID)
+CREATE TABLE CATEGORY (
+    categoryID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255)
 );
 
-CREATE TABLE category (
-    cat_id INT AUTO_INCREMENT PRIMARY KEY,
-    categores_name VARCHAR(100) NOT NULL,
-    Description TEXT
+CREATE TABLE STORAGE_METHOD (
+    storageMethodID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255)
 );
 
-INSERT INTO Category (categores_name, Description)
-VALUES
-    ('Category 1', 'Description for Category 1'),
-    ('Category 2', 'Description for Category 2'),
-    ('Category 3', 'Description for Category 3');
+CREATE TABLE CUSTOMER (
+    customerID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    contactInfo VARCHAR(255)
+);
+
+
+CREATE TABLE EMPLOYEE (
+    employeeID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    dateOfBirth DATE NOT NULL,
+    dateOfEmployment DATE NOT NULL,
+    workHours INT NOT NULL DEFAULT 0,
+    hourlyWage DECIMAL(10, 2) NOT NULL,
+    totalAmountPaid DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE ORDER_TABLE (
+    orderID INT PRIMARY KEY AUTO_INCREMENT,
+    orderDate DATE NOT NULL,
+    orderType VARCHAR(50) NOT NULL,
+    employeeID INT NOT NULL,
+    customerID INT NOT NULL,
+    FOREIGN KEY (employeeID) REFERENCES EMPLOYEE(employeeID),
+    FOREIGN KEY (customerID) REFERENCES CUSTOMER(customerID)
+);
+
+
+CREATE TABLE PAYMENT_METHOD (
+    paymentMethodID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE BILL (
+    billID INT PRIMARY KEY AUTO_INCREMENT,
+    totalPrice DECIMAL(10, 2) NOT NULL,
+    profit DECIMAL(10, 2) NOT NULL,
+    billType VARCHAR(50) NOT NULL,
+    orderID INT NOT NULL UNIQUE,
+    paymentMethodID INT NOT NULL,
+    FOREIGN KEY (orderID) REFERENCES ORDER_TABLE(orderID),
+    FOREIGN KEY (paymentMethodID) REFERENCES PAYMENT_METHOD(paymentMethodID)
+);
+
+CREATE TABLE INSURANCE_COMPANY (
+    insuranceCompanyID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    discountPercentage DECIMAL(5, 2) NOT NULL
+);
+
+CREATE TABLE INSURANCE_CUSTOMER (
+    customerID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    identificationNumber VARCHAR(50) UNIQUE NOT NULL,
+    insuranceCompanyID INT NOT NULL,
+    FOREIGN KEY (insuranceCompanyID) REFERENCES INSURANCE_COMPANY(insuranceCompanyID)
+);
+
+
+
+
+
+CREATE TABLE DOSAGE_FORM (
+    dosageFormID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE SIDE_EFFECT (
+    sideEffectID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    severity VARCHAR(50) NOT NULL
+);
+
+
+CREATE TABLE DISEASE (
+    diseaseID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255),
+    treatment VARCHAR(255)
+);
+
+CREATE TABLE DOCTOR (
+    doctorID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    specialization VARCHAR(255) NOT NULL,
+    phoneNumber VARCHAR(20)
+);
+
+CREATE TABLE PATIENT (
+    patientID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE PRESCRIPTION (
+    prescriptionID INT PRIMARY KEY AUTO_INCREMENT,
+    prescriptionDate DATE NOT NULL,
+    dosage VARCHAR(255) NOT NULL,
+    instructions VARCHAR(255) NOT NULL,
+    doctorID INT NOT NULL,
+    patientID INT NOT NULL,
+    FOREIGN KEY (doctorID) REFERENCES DOCTOR(doctorID),
+    FOREIGN KEY (patientID) REFERENCES PATIENT(patientID)
+);
+
+
+
+CREATE TABLE ITEM (
+    itemID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    barcode VARCHAR(50) UNIQUE,
+    quantity INT NOT NULL DEFAULT 0,
+    description VARCHAR(255),
+    salePrice DECIMAL(10, 2) NOT NULL,
+    originalPrice DECIMAL(10, 2) NOT NULL,
+    expiryDate DATE,
+    companyID INT NOT NULL,
+    categoryID INT NOT NULL,
+    storageMethodID INT NOT NULL,
+    dosageFormID INT NOT NULL,
+    FOREIGN KEY (companyID) REFERENCES COMPANY(companyID),
+    FOREIGN KEY (categoryID) REFERENCES CATEGORY(categoryID),
+    FOREIGN KEY (storageMethodID) REFERENCES STORAGE_METHOD(storageMethodID),
+    FOREIGN KEY (dosageFormID) REFERENCES DOSAGE_FORM(dosageFormID)
+);
+
+
+CREATE TABLE ORDER_ITEM (
+    orderID INT NOT NULL,
+    itemID INT NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
+    fullSalePrice DECIMAL(10, 2) NOT NULL,
+    fullOriginalPrice DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (orderID, itemID),
+    FOREIGN KEY (orderID) REFERENCES ORDER_TABLE(orderID),
+    FOREIGN KEY (itemID) REFERENCES ITEM(itemID)
+);
+
+CREATE TABLE ITEM_SIDE_EFFECT (
+    itemID INT NOT NULL,
+    sideEffectID INT NOT NULL,
+    PRIMARY KEY (itemID, sideEffectID),
+    FOREIGN KEY (itemID) REFERENCES ITEM(itemID),
+    FOREIGN KEY (sideEffectID) REFERENCES SIDE_EFFECT(sideEffectID)
+);
+
+CREATE TABLE PRESCRIPTION_ITEM (
+    prescriptionID INT NOT NULL,
+    itemID INT NOT NULL,
+    dosage VARCHAR(255) NOT NULL,
+    duration VARCHAR(255) NOT NULL,
+    PRIMARY KEY (prescriptionID, itemID),
+    FOREIGN KEY (prescriptionID) REFERENCES PRESCRIPTION(prescriptionID),
+    FOREIGN KEY (itemID) REFERENCES ITEM(itemID)
+);
+
+CREATE TABLE DOCTOR_DISEASE (
+    doctorID INT NOT NULL,
+    diseaseID INT NOT NULL,
+    PRIMARY KEY (doctorID, diseaseID),
+    FOREIGN KEY (doctorID) REFERENCES DOCTOR(doctorID),
+    FOREIGN KEY (diseaseID) REFERENCES DISEASE(diseaseID)
+);
+
+CREATE TABLE CUSTOMER_DISEASE (
+    customerID INT NOT NULL,
+    diseaseID INT NOT NULL,
+    duration VARCHAR(255),
+    severity VARCHAR(50),
+    PRIMARY KEY (customerID, diseaseID),
+    FOREIGN KEY (customerID) REFERENCES CUSTOMER(customerID),
+    FOREIGN KEY (diseaseID) REFERENCES DISEASE(diseaseID)
+);
