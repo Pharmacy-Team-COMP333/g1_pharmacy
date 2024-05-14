@@ -188,7 +188,7 @@ public class categoryController {
 
 
 	private void getData() {
-		String SQL = "SELECT * FROM Category c ORDER BY c.cat_id";
+		String SQL = "SELECT * FROM Category ORDER BY cat_id";
 		try {
 			Connector.a.connectDB();
 			java.sql.Statement state = Connector.a.connectDB().createStatement();
