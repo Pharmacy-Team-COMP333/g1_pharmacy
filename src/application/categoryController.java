@@ -140,7 +140,7 @@ public class categoryController {
 	private void updateName(int cat_id, String newValue) {
 	    try {
 	        Connector.a.connectDB();
-	        String sql = "UPDATE Category SET Categores_name = ? WHERE cat_id = ?";
+	        String sql = "UPDATE categories SET Categores_name = ? WHERE cat_id = ?";
 	        PreparedStatement statement = Connector.a.connectDB().prepareStatement(sql);
 	        statement.setString(1, newValue);
 	        statement.setInt(2, cat_id);
@@ -156,7 +156,7 @@ public class categoryController {
 	private void updateDescription(int cat_id, String newValue) {
 	    try {
 	        Connector.a.connectDB();
-	        String sql = "UPDATE Category SET Description = ? WHERE cat_id = ?";
+	        String sql = "UPDATE categories SET Description = ? WHERE cat_id = ?";
 	        PreparedStatement statement = Connector.a.connectDB().prepareStatement(sql);
 	        statement.setString(1, newValue);
 	        statement.setInt(2, cat_id);
@@ -173,7 +173,7 @@ public class categoryController {
 	private void updateCat_ID(int d, Integer newValue) {
 	    try {
 	        Connector.a.connectDB();
-	        String sql = "UPDATE Category SET cat_id = ? WHERE cat_id = ?";
+	        String sql = "UPDATE categories SET cat_id = ? WHERE cat_id = ?";
 	        PreparedStatement statement = Connector.a.connectDB().prepareStatement(sql);
 	        statement.setInt(1, newValue);
 	        statement.setInt(2, d);
@@ -188,7 +188,7 @@ public class categoryController {
 
 
 	private void getData() {
-		String SQL = "SELECT * FROM Category ORDER BY cat_id";
+		String SQL = "SELECT * FROM categories ORDER BY cat_id";
 		try {
 			Connector.a.connectDB();
 			java.sql.Statement state = Connector.a.connectDB().createStatement();
@@ -304,7 +304,7 @@ public class categoryController {
     private void deleteRow(int id) {
         try {
             Connector.a.connectDB();
-            String sql = "DELETE FROM Category WHERE cat_id = ?";
+            String sql = "DELETE FROM categories WHERE cat_id = ?";
             PreparedStatement statement = Connector.a.connectDB().prepareStatement(sql);
             statement.setInt(1, id);
             statement.executeUpdate();

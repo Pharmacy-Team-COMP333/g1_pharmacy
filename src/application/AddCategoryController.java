@@ -67,7 +67,7 @@ public class AddCategoryController {
     private void insertData(Category rc) {
         try {
             Connector.a.connectDB();
-            String sql = "INSERT INTO category (cat_id, categores_name, Description) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO categories (cat_id, categores_name, Description) VALUES (?, ?, ?)";
             PreparedStatement ps = Connector.a.connectDB().prepareStatement(sql);
             ps.setInt(1, rc.getCat_id());
             ps.setString(2, rc.getCategores_name());

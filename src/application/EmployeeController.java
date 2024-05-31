@@ -9,6 +9,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ListIterator;
+
 
 
 import javafx.beans.value.ChangeListener;
@@ -308,7 +310,7 @@ public class EmployeeController {
 	private void updateAmountPaid(int id2, Double newValue) {
 	    try {
 	        Connector.a.connectDB();
-	        PreparedStatement stmt = Connector.a.connectDB().prepareStatement("UPDATE contrect_employee SET amount_paid = ? WHERE id = ?");
+	        PreparedStatement stmt = Connector.a.connectDB().prepareStatement("UPDATE contract_employee SET amount_paid = ? WHERE id = ?");
 	        stmt.setDouble(1, newValue);
 	        stmt.setInt(2, id2);
 	        stmt.executeUpdate();
@@ -424,7 +426,7 @@ public class EmployeeController {
 				e.printStackTrace();
 			}
 		} else if (Contract) {
-			String SQL = "select * from employee e,contrect_employee c  where e.id=c.id order by e.id";
+			String SQL = "select * from employee e,contract_employee c  where e.id=c.id order by e.id";
 			try {
 				Connector.a.connectDB();
 				java.sql.Statement state = Connector.a.connectDB().createStatement();
