@@ -18,7 +18,7 @@
      -fx-border-radius: 30;
     }
 .photo{
-      -fx-background-image: url('file:Users/samia/eclipse-workspace/g1_pharmacy/icons/bc.jpg');
+      -fx-background-image: url('file:/Users/samia/Desktop/g1_pharmacy-main/g1_pharmacy-main/icons/bc.jpg');
         
   }
   .record-sales {
@@ -117,23 +117,23 @@
 
 
 .back{
-	 -fx-background-image: url('file:/Users/samia/eclipse-workspace/g1_pharmacy/icons/b.png');
+	 -fx-background-image: url('file:/Users/samia/Desktop/g1_pharmacy-main/g1_pharmacy-main/icons/b.png');
      -fx-background-size: 100% 100%;  
 	
 }
  .pic{
-	 -fx-background-image: url('file:/Users/samia/eclipse-workspace/g1_pharmacy/icons/pic4.png');
+	 -fx-background-image: url('file:/Users/samia/Desktop/g1_pharmacy-main/g1_pharmacy-main/icons/pic4.png');
      -fx-background-size: 100% 100%;  
 	
 }
  .pic2{
-	 -fx-background-image: url('file:/Users/samia/eclipse-workspace/g1_pharmacy/icons/pic3.gif');
+	 -fx-background-image: url('file:/Users/samia/Desktop/g1_pharmacy-main/g1_pharmacy-main/icons/pic3.gif');
      -fx-background-size: 100% 100%;  
 	
 }
 
  .pic3{
-	 -fx-background-image: url('file:/Users/samia/eclipse-workspace/g1_pharmacy/icons/pic7.jpg');
+	 -fx-background-image: url('file:/Users/samia/Desktop/g1_pharmacy-main/g1_pharmacy-main/icons/pic7.jpg');
      -fx-background-size: 100% 100%;  
 	
 }
