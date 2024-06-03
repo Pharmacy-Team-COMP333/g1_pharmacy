@@ -13,7 +13,7 @@
    <children>
       <AnchorPane layoutY="-7.0" prefHeight="275.0" prefWidth="448.0" style="-fx-background-color: #000080;">
          <children>
-            <Label layoutX="91.0" layoutY="68.0" text="Category ID:" textFill="WHITE">
+            <Label layoutX="58.0" layoutY="68.0" prefHeight="31.0" prefWidth="187.0" text="Dosage formID:" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="21.0" />
                </font>
@@ -41,7 +41,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Label layoutX="59.0" layoutY="14.0" prefHeight="43.0" prefWidth="334.0" text="Add Category" textFill="WHITE">
+            <Label layoutX="59.0" layoutY="14.0" prefHeight="43.0" prefWidth="334.0" text="Add dosage form" textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="24.0" />
                </font>
