@@ -86,7 +86,10 @@ public class UpdateDiseaseController {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return false;
     }
 
@@ -107,7 +110,10 @@ public class UpdateDiseaseController {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         String updatedName = Name.getText().isEmpty() ? currentName : Name.getText();
         String updatedDescription = Description.getText().isEmpty() ? currentDescription : Description.getText();
@@ -137,7 +143,10 @@ public class UpdateDiseaseController {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 }

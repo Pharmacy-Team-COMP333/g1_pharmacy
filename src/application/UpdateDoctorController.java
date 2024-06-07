@@ -83,7 +83,10 @@ public class UpdateDoctorController {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return false;
     }
 
@@ -104,7 +107,10 @@ public class UpdateDoctorController {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         String updatedName = NameTF.getText().isEmpty() ? currentName : NameTF.getText();
         String updatedPhoneNumber = PhoneNumberTF.getText().isEmpty() ? currentPhoneNumber : PhoneNumberTF.getText();
@@ -134,6 +140,9 @@ public class UpdateDoctorController {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }

@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -124,7 +125,7 @@ public class inshuranceController {
 	}
 
 	public void getData() {
-		String SQL = "select * from inshurance";
+		String SQL = "select * from insurance";
 		try {
 			Connector.a.connectDB();
 			java.sql.Statement state = Connector.a.connectDB().createStatement();
@@ -166,52 +167,41 @@ public class inshuranceController {
 	}
 
 	public void updateID(int oldID, int newID) {
-
-		try {
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement(
-					"update inshurance set coustumerID  = " + newID + " where coustumerID = " + oldID + ";");
-			Connector.a.connectDB().close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
+	    String sql = "UPDATE insurance SET customerID = ? WHERE customerID = ?";
+	    try (Connection conn = Connector.a.connectDB();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setInt(1, newID);
+	        ps.setInt(2, oldID);
+	        ps.executeUpdate();
+	    } catch (SQLException | ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	public void updateName(int id, String name) {
-
-		try {
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement(
-					"update inshurance set coustumerName = '" + name + "' where coustumerID = " + id + ";");
-			Connector.a.connectDB().close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
+	    String sql = "UPDATE insurance SET customerName = ? WHERE customerID = ?";
+	    try (Connection conn = Connector.a.connectDB();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setString(1, name);
+	        ps.setInt(2, id);
+	        ps.executeUpdate();
+	    } catch (SQLException | ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	public void updateCompanyName(int id, String name) {
-
-		try {
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement(
-					"update inshurance set inshurance_companyName = '" + name + "' where coustumerID = " + id + ";");
-			Connector.a.connectDB().close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
+	    String sql = "UPDATE insurance SET insurance_companyName = ? WHERE customerID = ?";
+	    try (Connection conn = Connector.a.connectDB();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setString(1, name);
+	        ps.setInt(2, id);
+	        ps.executeUpdate();
+	    } catch (SQLException | ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 	@FXML
 	void updateOnAction(ActionEvent event) {
@@ -247,25 +237,27 @@ public class inshuranceController {
 	}
 
 	private void insertData(inshuranceData rc) {
+	    String updateCompanySQL = "UPDATE insurance_company SET numberOfCustomer = numberOfCustomer + 1 WHERE insurance_companyName = ?";
+	    String insertSQL = "INSERT INTO insurance (customerID, customerName, insurance_companyName) VALUES (?, ?, ?)";
+	    try (Connection conn = Connector.a.connectDB();
+	         PreparedStatement updatePs = conn.prepareStatement(updateCompanySQL);
+	         PreparedStatement insertPs = conn.prepareStatement(insertSQL)) {
 
-		try {
+	        // Update company
+	        updatePs.setString(1, rc.getInshurance_companyName());
+	        updatePs.executeUpdate();
 
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update inshurance_company set numberOfCustomer = numberOfCustomer + 1 where inshurance_companyName = '"+  rc.getInshurance_companyName() +"' ;");
-			String sql = "Insert into inshurance (coustumerID, coustumerName, inshurance_companyName)"
-					+ " values(?,?,?)";
-			PreparedStatement ps = (PreparedStatement) Connector.a.connectDB().prepareStatement(sql);
-			ps.setString(1, String.valueOf(rc.getCustomerID()));
-			ps.setString(2, rc.getCoustumerName());
-			ps.setString(3, rc.getInshurance_companyName());
-			ps.execute();
+	        // Insert new record
+	        insertPs.setInt(1, rc.getCustomerID());
+	        insertPs.setString(2, rc.getCoustumerName());
+	        insertPs.setString(3, rc.getInshurance_companyName());
+	        insertPs.executeUpdate();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+	    } catch (SQLException | ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 	@FXML
 	void addOnAction(ActionEvent event) {
@@ -286,18 +278,16 @@ public class inshuranceController {
 	}
 
 	private void deleteRow(int id) {
-		try {
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("delete from  inshurance where coustumerID =" + id + ";");
-			Connector.a.connectDB().close();
-//			System.out.println("Connection closed");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+	    String sql = "DELETE FROM insurance WHERE customerID = ?";
+	    try (Connection conn = Connector.a.connectDB();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setInt(1, id);
+	        ps.executeUpdate();
+	    } catch (SQLException | ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 	@FXML
 	void deleteOnAction(ActionEvent event) {

@@ -7,42 +7,53 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 
-public class CategoryStatisticsController implements Initializable{
+public class CategoryStatisticsController implements Initializable {
+
+	@FXML
+	private StackedBarChart<String, Number> barChart;
 
     @FXML
-    private StackedBarChart<String,Integer> barChart;
+    private CategoryAxis xAxis;
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-	
-		String SQL = "select * from categores order by cat_id";
-		try {
-			Connector.a.connectDB();
-			java.sql.Statement state = Connector.a.connectDB().createStatement();
-			ResultSet rs = state.executeQuery(SQL);
-			while (rs.next()) {
-				XYChart.Series<String,Integer> s = new XYChart.Series<>();
-				s.setName("Categry ID: " + rs.getInt(1));
-				String name = rs.getString(2);
-				int numOfItem = rs.getInt(3);
-				s.getData().add(new XYChart.Data(name,numOfItem));
-				barChart.getData().addAll(s);
-			}
-			rs.close();
-			state.close();
-			Connector.a.connectDB().close();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    @FXML
+    private NumberAxis yAxis;
 
-		
-	}
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        String SQL = "SELECT c.cat_id, c.categories_name, COUNT(*) AS item_count " +
+                     "FROM categories c " +
+                     "JOIN item i ON c.cat_id = i.item_name " +
+                     "GROUP BY cat_id, categories_name " +
+                     "ORDER BY cat_id";
 
+        try {
+            Connector.a.connectDB();
+            java.sql.Statement state = Connector.a.connectDB().createStatement();
+            ResultSet rs = state.executeQuery(SQL);
+
+            while (rs.next()) {
+                int categoryId = rs.getInt("cat_id");
+                String categoryName = rs.getString("categories_name");
+                int itemCount = rs.getInt("item_count");
+
+                XYChart.Series<String, Number> series = new XYChart.Series<>();
+                series.setName("Category ID: " + categoryId);
+                series.getData().add(new XYChart.Data<>(categoryName, itemCount));
+
+                barChart.getData().add(series);
+            }
+
+            rs.close();
+            state.close();
+            Connector.a.connectDB().close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

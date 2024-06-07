@@ -150,7 +150,7 @@ public class dosgeformContrroler {
 	}
 	
 	private void getData() {
-		String SQL = "SELECT * FROM dosage_form ORDER BY dosageFormIDS";
+		String SQL = "SELECT * FROM dosage_form ORDER BY dosageFormID";
 		try {
 			Connector.a.connectDB();
 			java.sql.Statement state = Connector.a.connectDB().createStatement();

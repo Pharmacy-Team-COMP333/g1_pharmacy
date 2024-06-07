@@ -45,6 +45,12 @@ public class DeleteDoctorController {
         try (Statement statement = Connector.getConnection().createStatement()) {
             String query = "SELECT * FROM prescription WHERE doctorID = " + doctorID;
             existsInPrescriptionTable = statement.executeQuery(query).next();
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+            return false; // Indicates failure
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return false; // Indicates failure
         }
 
         // If the doctor ID exists in the prescription table, show a message box and return false
@@ -59,7 +65,14 @@ public class DeleteDoctorController {
             String query = "DELETE FROM doctor WHERE doctorID = " + doctorID;
             int rowsAffected = statement.executeUpdate(query);
             return rowsAffected > 0;
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+            return false; // Indicates failure
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return false; // Indicates failure
         }
+        
     }
 
     private void showAlert(String message) {

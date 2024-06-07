@@ -130,7 +130,7 @@ public class inshurance_companyController {
 	}
 
 	public void getData() {
-		String SQL = "select * from inshurance_company";
+		String SQL = "select * from insurance_company";
 		try {
 			Connector.a.connectDB();
 			java.sql.Statement state = Connector.a.connectDB().createStatement();
@@ -175,8 +175,8 @@ public class inshurance_companyController {
 
 		try {
 			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update inshurance_company set inshurance_companyDiscount = " + discount
-					+ " where inshurance_companyName = '" + name + "';");
+			Connector.a.ExecuteStatement("update insurance_company set insurance_companyDiscount = " + discount
+					+ " where insurance_companyName = '" + name + "';");
 			Connector.a.connectDB().close();
 
 		} catch (SQLException e) {
@@ -191,8 +191,8 @@ public class inshurance_companyController {
 
 		try {
 			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update inshurance_company set numberOfCustomer = " + customerNumber
-					+ " where inshurance_companyName = '" + name + "';");
+			Connector.a.ExecuteStatement("update insurance_company set numberOfCustomer = " + customerNumber
+					+ " where insurance_companyName = '" + name + "';");
 			Connector.a.connectDB().close();
 
 		} catch (SQLException e) {
@@ -207,8 +207,8 @@ public class inshurance_companyController {
 
 		try {
 			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update inshurance_company set inshurance_companyName = '" + newName
-					+ "' where inshurance_companyName = '" + name + "';");
+			Connector.a.ExecuteStatement("update insurance_company set insurance_companyName = '" + newName
+					+ "' where insurance_companyName = '" + name + "';");
 			Connector.a.connectDB().close();
 
 		} catch (SQLException e) {
@@ -256,7 +256,7 @@ public class inshurance_companyController {
 		try {
 
 			Connector.a.connectDB();
-			String sql = "Insert into inshurance_company (inshurance_companyName, inshurance_companyDiscount)"
+			String sql = "Insert into insurance_company (insurance_companyName, insurance_companyDiscount)"
 					+ " values(?,?)";
 			PreparedStatement ps = (PreparedStatement) Connector.a.connectDB().prepareStatement(sql);
 			ps.setString(1, rc.getCompanyName());
@@ -294,7 +294,7 @@ public class inshurance_companyController {
 		try {
 			Connector.a.connectDB();
 			Connector.a
-					.ExecuteStatement("delete from  inshurance_company where inshurance_companyName ='" + Name + "';");
+					.ExecuteStatement("delete from  insurance_company where insurance_companyName ='" + Name + "';");
 			Connector.a.connectDB().close();
 //			System.out.println("Connection closed");
 

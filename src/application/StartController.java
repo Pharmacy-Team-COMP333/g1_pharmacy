@@ -53,13 +53,13 @@ public class StartController {
 
 	@FXML
 	void Emp(ActionEvent event) {
-		if (Manegar.mng.getName().equals("nathera alwan") && Manegar.mng.getPassword().equals("admin")) {
+		if (Manegar.mng.getName().equals("sami") && Manegar.mng.getPassword().equals("admin")) {
 			try { // open new stage
 				Stage stage;
 				Parent root;
 				stage = (Stage) btnEmp.getScene().getWindow();
 				stage.close();
-				root = FXMLLoader.load(getClass().getResource("Sample.fxml"));
+				root = FXMLLoader.load(getClass().getResource("Employee.fxml"));
 				Scene scene = new Scene(root, 1051, 773);
 				stage.setScene(scene);
 				stage.setTitle("Employee");

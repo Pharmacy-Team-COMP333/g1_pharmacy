@@ -132,7 +132,7 @@ public class Prov_CompanyOrderController implements Initializable {
 	}
 
 	private void getData() {
-		String SQL = "select * from item i,categores c where i.cat_id=c.cat_id and i.provide_company_name = '"
+		String SQL = "select * from item i,categories c where i.cat_id=c.cat_id and i.provide_company_name = '"
 	+ Prov_CompanyOrder.provOrder.getCompanyName() + "' order by i.cat_id";
 		try {
 			Connector.a.connectDB();

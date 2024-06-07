@@ -364,19 +364,27 @@ public class itemController {
 	}
 
 	public void refresh() {
-		TableData.getItems().clear();
-		getData();
-		TableData.setItems(dataList);
+        ObservableList<Item> items = TableData.getItems();
+        if (items != null && items.size() > 0) {
+        	ArrayList<Item> modifiableList = new ArrayList<>(items);
+            modifiableList.clear(); // Clear the temporary modifiable list
+            TableData.setItems(FXCollections.observableArrayList(modifiableList)); // Set the modifiable list back to TableData
+        } else {
+            TableData.setItems(FXCollections.observableArrayList()); // Just set an empty list if items were null or empty
+        }
+        getData();
+        TableData.setItems(dataList); // Set the new data list to the TableView
+    }
 
-	}
 
 	public void initialize() {
-		data = new ArrayList<>();
-		dataList = FXCollections.observableArrayList(data);
-		TableData.setEditable(true);
+        data = new ArrayList<>();
+        dataList = FXCollections.observableArrayList(data);
+        TableData.setItems(dataList); // Initialize TableView with dataList
+        TableData.setEditable(true);
 
-		par_codeColumn.setCellFactory(TextFieldTableCell.<Item, Integer>forTableColumn(new IntegerStringConverter()));
-		par_codeColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("par_code"));
+        par_codeColumn.setCellFactory(TextFieldTableCell.<Item, Integer>forTableColumn(new IntegerStringConverter()));
+        par_codeColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("par_code"));
 
 		item_nameColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("item_name"));
 		item_nameColumn.setCellFactory(TextFieldTableCell.<Item>forTableColumn());
@@ -476,49 +484,41 @@ public class itemController {
 		}
 	}
 
-	public void updateParcode(int parcode, String CompName, int catID, String newParcode) {
-
-		try {
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update  item set par_code = " + newParcode + " where par_code = " + parcode
-					+ " and provide_company_name = '" + CompName + "' and cat_id = " + catID + ";");
-			Connector.a.connectDB().close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
+	public void updateParcode(int parcode, String compName, int catID, String newParcode) {
+        String updateQuery = "UPDATE item SET par_code = '" + newParcode + 
+                             "' WHERE par_code = " + parcode + 
+                             " AND provide_company_name = '" + compName + 
+                             "' AND cat_id = " + catID;
+        try {
+            Connector connector = new Connector();
+            connector.ExecuteUpdate(updateQuery); // Use ExecuteUpdate for update statement
+            System.out.println("Parcode updated successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 	}
 
 	public void updateName(int parcode, String CompName, int catID, String newitem_name) {
 
 		try {
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update  item set item_name = '" + newitem_name + "' where par_code = "
+            Connector connector = new Connector();
+            connector.ExecuteUpdate("update  item set item_name = '" + newitem_name + "' where par_code = "
 					+ parcode + " and provide_company_name = '" + CompName + "' and cat_id = " + catID + ";");
-			Connector.a.connectDB().close();
+            System.out.println("Name updated successfully.");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		} 
 
 	}
 
 	public void updateQuantity(int parcode, String CompName, int catID, String NewQuantity) {
 
 		try {
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update  item set quantity = " + NewQuantity + " where par_code = " + parcode
+            Connector connector = new Connector();
+            connector.ExecuteUpdate("update  item set quantity = " + NewQuantity + " where par_code = " + parcode
 					+ " and provide_company_name = '" + CompName + "' and cat_id = " + catID + ";");
-			Connector.a.connectDB().close();
-
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
@@ -527,30 +527,24 @@ public class itemController {
 	public void updateDiscription(int parcode, String CompName, int catID, String newDiscription) {
 
 		try {
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update  item set discription = '" + newDiscription + "' where par_code = "
+            Connector connector = new Connector();
+            connector.ExecuteUpdate("update  item set discription = '" + newDiscription + "' where par_code = "
 					+ parcode + " and provide_company_name = '" + CompName + "' and cat_id = " + catID + ";");
-			Connector.a.connectDB().close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		} 
 
 	}
 
 	public void updateSalePrice(int parcode, String CompName, int catID, String NewSalePrice) {
 
 		try {
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update  item set sale_price = " + NewSalePrice + " where par_code = "
+            Connector connector = new Connector();
+            connector.ExecuteUpdate("update  item set sale_price = " + NewSalePrice + " where par_code = "
 					+ parcode + " and provide_company_name = '" + CompName + "' and cat_id = " + catID + ";");
-			Connector.a.connectDB().close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
@@ -559,16 +553,12 @@ public class itemController {
 	public void updateOrigenPrice(int parcode, String CompName, int catID, String NewOrigenPrice) {
 
 		try {
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update  item set origen_price = " + NewOrigenPrice + " where par_code = "
+            Connector connector = new Connector();
+            connector.ExecuteUpdate("update  item set origen_price = " + NewOrigenPrice + " where par_code = "
 					+ parcode + " and provide_company_name = '" + CompName + "' and cat_id = " + catID + ";");
-			Connector.a.connectDB().close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		} 
 
 	}
 	
@@ -588,13 +578,10 @@ public class itemController {
 			}
 			sqlDate = new java.sql.Date(myDate.getTime());
 
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update  item set exp_date = '" + sqlDate + "' where par_code = "	+ parcode + " and provide_company_name = '" + CompName + "' and cat_id = " + catID + ";");
-			Connector.a.connectDB().close();
+            Connector connector = new Connector();
+            connector.ExecuteUpdate("update  item set exp_date = '" + sqlDate + "' where par_code = "	+ parcode + " and provide_company_name = '" + CompName + "' and cat_id = " + catID + ";");
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		

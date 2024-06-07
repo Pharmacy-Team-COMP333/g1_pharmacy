@@ -53,6 +53,12 @@ public class DeleteDiseaseController {
             String query = "DELETE FROM DISEASE WHERE diseaseID = " + diseaseID;
             int rowsAffected = statement.executeUpdate(query);
             return rowsAffected > 0;
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+            return false; // Indicates failure
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return false; // Indicates failure
         }
     }
     

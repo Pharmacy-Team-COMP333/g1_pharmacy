@@ -149,39 +149,27 @@ public class provide_companyController {
 	}
 
 	private void updateAddress(String companyName, String newValue) {
-		// TODO Auto-generated method stub
-		try {
-//			System.out.println("update  employee set employee_name = '" + name + "' where id = " + ID_num);
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update  provide_company set address = '" + newValue
-					+ "' where company_name = '" + companyName + "';");
-			Connector.a.connectDB().close();
-//			System.out.println("Connection closed");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
+	    try {
+	        Connector.a.connectDB();
+	        Connector.a.ExecuteUpdate("update provide_company set address = '" + newValue + "' where company_name = '" + companyName + "';");
+	        Connector.a.connectDB().close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	private void updatePhone(String companyName, int newValue) {
-		// TODO Auto-generated method stub
-		try {
-//			System.out.println("update  employee set employee_name = '" + name + "' where id = " + ID_num);
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update  provide_company set phone = '" + newValue + "' where company_name = '"
-					+ companyName + "';");
-			Connector.a.connectDB().close();
-//			System.out.println("Connection closed");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
+	    try {
+	        Connector.a.connectDB();
+	        Connector.a.ExecuteUpdate("update provide_company set phone = '" + newValue + "' where company_name = '" + companyName + "';");
+	        Connector.a.connectDB().close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	private void getData() {
@@ -209,21 +197,15 @@ public class provide_companyController {
 	}
 
 	private void updateName(String companyName, String newValue) {
-		// TODO Auto-generated method stub
-		try {
-
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("update  provide_company set company_name = '" + newValue
-					+ "' where company_name = '" + companyName + "';");
-			Connector.a.connectDB().close();
-//			System.out.println("Connection closed");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
+	    try {
+	        Connector.a.connectDB();
+	        Connector.a.ExecuteUpdate("update provide_company set company_name = '" + newValue + "' where company_name = '" + companyName + "';");
+	        Connector.a.connectDB().close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	private void searchRentalEmployee() {
@@ -305,18 +287,15 @@ public class provide_companyController {
 	}
 
 	private void deleteRow(String nameString) {
-		try {
-//			System.out.println("delete from  employee where id =" + id + ";");
-			Connector.a.connectDB();
-			Connector.a.ExecuteStatement("delete from  provide_company where company_name ='" + nameString + "';");
-			Connector.a.connectDB().close();
-//			System.out.println("Connection closed");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+	    try {
+	        Connector.a.connectDB();
+	        Connector.a.ExecuteUpdate("delete from  provide_company where company_name ='" + nameString + "';");
+	        Connector.a.connectDB().close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	@FXML

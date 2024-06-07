@@ -109,11 +109,10 @@ public class categoryController {
 		});
 
 
-		name.setCellValueFactory(new PropertyValueFactory<Category, String>("Categores_name"));
-		name.setCellFactory(TextFieldTableCell.<Category>forTableColumn());
+		name.setCellValueFactory(new PropertyValueFactory<Category, String>("categories_name"));		name.setCellFactory(TextFieldTableCell.<Category>forTableColumn());
 		name.setOnEditCommit((CellEditEvent<Category, String> t) -> {
 			((Category) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-			.setCategores_name(t.getNewValue()); // display
+			.setCategories_name(t.getNewValue()); // display
 			// only
 
 			updateName(t.getRowValue().getCat_id(), t.getNewValue());
@@ -140,7 +139,7 @@ public class categoryController {
 	private void updateName(int cat_id, String newValue) {
 	    try {
 	        Connector.a.connectDB();
-	        String sql = "UPDATE categories SET Categores_name = ? WHERE cat_id = ?";
+	        String sql = "UPDATE categories SET categories_name = ? WHERE cat_id = ?";
 	        PreparedStatement statement = Connector.a.connectDB().prepareStatement(sql);
 	        statement.setString(1, newValue);
 	        statement.setInt(2, cat_id);
@@ -222,7 +221,7 @@ public class categoryController {
 
 				if (String.valueOf(category.getCat_id()).toLowerCase().indexOf(lowerCaseFilter) != -1) {
 					return true; // Filter matches car Id
-				} else if (category.getCategores_name().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+				} else if (category.getCategories_name().toLowerCase().indexOf(lowerCaseFilter) != -1) {
 					return true; // Filter matches password
 				}
 				else

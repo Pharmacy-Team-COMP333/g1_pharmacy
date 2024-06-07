@@ -79,9 +79,8 @@ public class AddDoctorController {
     }
 
     private boolean isDoctorIdExists(int doctorID) {
-        String query = "SELECT COUNT(*) FROM DOCTOR WHERE doctorID = ?";
         try (Connection conn = Connector.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+             PreparedStatement preparedStatement = conn.prepareStatement("SELECT COUNT(*) FROM DOCTOR WHERE doctorID = ?")) {
             preparedStatement.setInt(1, doctorID);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next() && resultSet.getInt(1) > 0) {
@@ -95,6 +94,9 @@ public class AddDoctorController {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+        }catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return false; // Indicates failure
         }
         return false; // Doctor ID does not exist
     }
@@ -119,21 +121,20 @@ public class AddDoctorController {
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false; // Indicates failure
+        }catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return false; // Indicates failure
         }
     }
-
-    public ObservableList<Doctor> getDoctor(String query) {
+    public ObservableList<Doctor> getDoctor(String query) throws SQLException, ClassNotFoundException {
         ObservableList<Doctor> doctorsList = FXCollections.observableArrayList();
-        Connection conn = Connector.getConnection();
-
-        Statement st = null;
-        ResultSet rs = null;
-
-        try {
-            st = conn.createStatement();
-            rs = st.executeQuery(query);
+        
+        try (Connection conn = Connector.getConnection();
+             Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+            
             Doctor doctor;
-
+            
             if (!rs.isBeforeFirst()) {
                 System.out.println("No records found for the query: " + query);
                 return null;
@@ -143,18 +144,8 @@ public class AddDoctorController {
                     doctorsList.add(doctor);
                 }
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (st != null) st.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
-
+        
         return doctorsList;
     }
 }

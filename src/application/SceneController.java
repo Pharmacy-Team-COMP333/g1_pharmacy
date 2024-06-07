@@ -43,8 +43,9 @@ public class SceneController {
     @FXML
     void btnClick(ActionEvent event) {
         try {
+            // Check if the provided credentials match the entity manager
             PreparedStatement st = Connector.a.connectDB()
-                    .prepareStatement("SELECT * FROM employee WHERE employee_name = ? AND emp_password = ?");
+                    .prepareStatement("SELECT * FROM ENTITY_MANAGER WHERE name = ? AND password = ?");
             st.setString(1, UserName.getText());
             st.setString(2, PassWord.getText());
             ResultSet r1 = st.executeQuery();
@@ -60,39 +61,33 @@ public class SceneController {
             }
 
             if (r1.next()) {
-                if (r1.getString(1).equals(UserName.getText()) && r1.getString(4).equals(PassWord.getText())) {
-                    ManegName = UserName.getText();
-                    ManegPassword = PassWord.getText();
-                    Manegar.mng.setName(ManegName);
-                    Manegar.mng.setPassword(ManegPassword);
+                // Retrieve the manager's information and the current date
+                ManegName = r1.getString("name");
+                ManegPassword = r1.getString("password");
+                String currentDate = r1.getString("date_created");
 
-                    try {
-                        stage = (Stage) btnLogin.getScene().getWindow();
-                        stage.close();
-                        root = FXMLLoader.load(getClass().getResource("Start.fxml"));
-                        scene = new Scene(root, 901, 649);
-                        stage.setScene(scene);
-                        stage.setTitle("Chose One");
-                        stage.show();
-                    } catch (IOException e1) {
-                        Message.displayMassage("There is no account at this username and password, Try again", "error");
-                    }
-                } else {
-                    Message.displayMassage("There is no account at this username and password, Try again", "error");
+                Manegar.mng.setName(ManegName);
+                Manegar.mng.setPassword(ManegPassword);
+
+                // Display the current date in the application
+                System.out.println("Current date: " + currentDate);
+
+                try {
+                    // Proceed with opening the next scene
+                    stage = (Stage) btnLogin.getScene().getWindow();
+                    stage.close();
+                    root = FXMLLoader.load(getClass().getResource("Start.fxml"));
+                    scene = new Scene(root, 901, 649);
+                    stage.setScene(scene);
+                    stage.setTitle("Chose One");
+                    stage.show();
+                } catch (IOException e1) {
+                    Message.displayMassage("Error opening the next scene", "error");
                 }
             } else {
-                Message.displayMassage("There is no account at this username and password, Try again", "error");
+                Message.displayMassage("Invalid username or password", "error");
             }
-
-            PreparedStatement st2 = Connector.a.connectDB().prepareStatement("SELECT * FROM employee WHERE employee_name = ?");
-            st2.setString(1, ManegName);
-            ResultSet r2 = st2.executeQuery();
-            if (r2.next()) {
-                empId = r2.getInt(1);
-            }
-        } catch (ClassNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (SQLException e1) {
+        } catch (ClassNotFoundException | SQLException e1) {
             e1.printStackTrace();
         }
     }

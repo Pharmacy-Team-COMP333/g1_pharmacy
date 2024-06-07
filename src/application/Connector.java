@@ -22,6 +22,13 @@ public class Connector {
             e.printStackTrace();
         }
     }
+    
+    public static Connection getConnection() throws ClassNotFoundException, SQLException {
+        if (conn == null || conn.isClosed()) {
+            conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        }
+        return conn;
+    }
 
     public Connection connectDB() throws ClassNotFoundException, SQLException {
         conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -31,5 +38,17 @@ public class Connector {
 
     public Statement ExecuteStatement(String query) throws SQLException {
         return (Statement) stmt.executeQuery(query);
+    }
+    
+    public void ExecuteUpdate(String SQL) throws SQLException {
+        try {
+            java.sql.Statement stmt = connectDB().createStatement();
+            stmt.executeUpdate(SQL);
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

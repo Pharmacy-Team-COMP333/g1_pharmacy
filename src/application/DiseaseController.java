@@ -86,7 +86,8 @@ public class DiseaseController {
 
         loadDiseaseData();
     }
-
+    
+    
     private void loadDiseaseData() {
         diseaseList.clear();
         try (Connection conn = Connector.getConnection();
@@ -95,13 +96,15 @@ public class DiseaseController {
 
             while (rs.next()) {
                 diseaseList.add(new Disease(
-                        rs.getInt("DiseaseID"),
-                        rs.getString("Name"),
-                        rs.getString("Description"),
-                        rs.getString("Treatment")
+                    rs.getInt("DiseaseID"),
+                    rs.getString("Name"),
+                    rs.getString("Description"),
+                    rs.getString("Treatment")
                 ));
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -112,7 +115,7 @@ public class DiseaseController {
     void AddDisease(ActionEvent event) {
         try {
             Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/AddDisease.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("AddDisease.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Add New Disease");
@@ -126,7 +129,7 @@ public class DiseaseController {
     void DeleteDisease(ActionEvent event) {
         try {
             Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/DeleteDisease.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("DeleteDisease.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Delete Disease");
@@ -140,7 +143,7 @@ public class DiseaseController {
     void UpdateDisease(ActionEvent event) {
         try {
             Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/UpdateDisease.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("UpdateDisease.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Update Disease");
@@ -162,7 +165,10 @@ public class DiseaseController {
                 loadDiseaseData();
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
+            } catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         } else {
             showAlert("No Disease Selected , Please select a disease in the table.");
         }
@@ -214,7 +220,7 @@ public class DiseaseController {
 
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             return false;
         } finally {
@@ -258,7 +264,10 @@ public class DiseaseController {
             DiseaseTable.setItems(diseaseList);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        } catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     }
 
     @FXML

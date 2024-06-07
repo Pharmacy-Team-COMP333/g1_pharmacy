@@ -89,7 +89,10 @@ public class DoctorController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
             // Close the resources
             try {
                 if (resultSet != null) {
@@ -111,17 +114,17 @@ public class DoctorController {
 
     @FXML
     void AddDoctor(ActionEvent event) {
-        openStage("/AddDoctor.fxml", "Add New Doctor");
+        openStage("AddDoctor.fxml", "Add New Doctor");
     }
 
     @FXML
     void DeleteDoctor(ActionEvent event) {
-        openStage("/DeleteDoctor.fxml", "Delete Doctor");
+        openStage("DeleteDoctor.fxml", "Delete Doctor");
     }
 
     @FXML
     void UpdateDoctor(ActionEvent event) {
-        openStage("/UpdateDoctor.fxml", "Update Doctor");
+        openStage("UpdateDoctor.fxml", "Update Doctor");
     }
 
     private void openStage(String fxmlPath, String title) {
@@ -190,7 +193,10 @@ public class DoctorController {
             DoctorTable.setItems(doctorsList);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        } catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     }
 
     @FXML
@@ -249,7 +255,10 @@ public class DoctorController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
             // Close the resources
             try {
                 if (statement != null) {
@@ -327,7 +336,10 @@ public class DoctorController {
             } else {
                 e.printStackTrace();
             }
-        } finally {
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
             // Close the resources
             try {
                 if (statement != null) {

@@ -74,33 +74,25 @@ public class AddDiseaseController {
         }
     }
 
-    private boolean isDiseaseIdExists(int diseaseID) {
-        String query = "SELECT COUNT(*) FROM DISEASE WHERE diseaseID = ?";
+    private boolean isDiseaseIdExists(int id) {
         try (Connection conn = Connector.getConnection();
-                PreparedStatement preparedStatement = conn.prepareStatement(query)) {
-            preparedStatement.setInt(1, diseaseID);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next() && resultSet.getInt(1) > 0) {
-                // disease ID exists, show message box
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Duplicate Disease ID");
-                alert.setHeaderText(null);
-                alert.setContentText("Disease ID already exists. Please enter a different ID.");
-                alert.showAndWait();
-                return true;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+             PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM disease WHERE Disease_ID = ?")) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return rs.getInt(1) > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
-        return false; // Disease ID does not exist
+        return false;
     }
 
     public boolean insertDisease(Disease disease) {
-        String query = "INSERT INTO DISEASE (diseaseID, name, description, treatment) VALUES (?, ?, ?, ?)";
-
         try (Connection conn = Connector.getConnection();
-                PreparedStatement preparedStatement = conn.prepareStatement(query)) {
-
+             PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO DISEASE (diseaseID, name, description, treatment) VALUES (?, ?, ?, ?)")
+        ) {
             preparedStatement.setInt(1, disease.getDiseaseID());
             preparedStatement.setString(2, disease.getName());
             preparedStatement.setString(3, disease.getDescription());
@@ -109,6 +101,9 @@ public class AddDiseaseController {
             int rowsInserted = preparedStatement.executeUpdate();
             return rowsInserted > 0; // Indicates success if rows were inserted
         } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false; // Indicates failure
+        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
             return false; // Indicates failure
         }
