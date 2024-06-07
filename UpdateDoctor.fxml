@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane style="-fx-background-color: #ccddff;" xmlns="http://javafx.com/javafx/17.0.11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.UpdateDoctorController">
+   <children>
+      <AnchorPane layoutX="-63.0" layoutY="-13.0" prefHeight="346.0" prefWidth="611.0" style="-fx-background-color: #ccddff;">
+         <children>
+            <Label layoutX="239.0" layoutY="35.0" prefHeight="35.0" prefWidth="201.0" style="-fx-border-color: #00008b; -fx-border-radius: 10;" text=" Update Doctor Data ">
+               <font>
+                  <Font name="Arial Bold" size="20.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="DARKBLUE" />
+               </textFill>
+            </Label>
+            <TextField fx:id="DoctorIDTF" layoutX="160.0" layoutY="82.0" onAction="#DoctorIDTF" prefHeight="25.0" prefWidth="79.0" promptText="Doctor ID" />
+            <TextField fx:id="NameTF" layoutX="300.0" layoutY="152.0" onAction="#NameTF" promptText="Name" />
+            <TextField fx:id="PhoneNumberTF" layoutX="300.0" layoutY="234.0" onAction="#PhoneNumberTF" promptText="Phone Number" />
+            <TextField fx:id="SpecializationTF" layoutX="300.0" layoutY="193.0" onAction="#SpecializationTF" promptText="Specialization" />
+            <Button fx:id="UpdateDoctorB" layoutX="296.0" layoutY="293.0" mnemonicParsing="false" onAction="#UpdateDoctorB" text="Update">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="WHITE" />
+               </textFill>
+               <style>
+                  -fx-background-color: #2196F3; 
+                  -fx-border-radius: 10; 
+                  -fx-background-radius: 10; 
+                  -fx-border-color: #00008b;
+               </style>
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Desktop/DB_images/Update2.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Label layoutX="83.0" layoutY="86.0" text="Doctor ID" textFill="#eb0c0cfa">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="219.0" layoutY="157.0" text="Name">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="188.0" layoutY="197.0" text="Specialization">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="188.0" layoutY="239.0" text="Phone Number">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Separator layoutX="109.0" layoutY="131.0" prefHeight="0.0" prefWidth="461.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

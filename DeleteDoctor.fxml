@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="237.0" prefWidth="456.0" style="-fx-background-color: #ccddff;" xmlns="http://javafx.com/javafx/17.0.11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DeleteDoctorController">
+    <children>
+        <Label layoutX="151.0" layoutY="30.0" prefHeight="41.0" prefWidth="149.0" style="-fx-border-color: #00008b; -fx-border-radius: 10; -fx-background-radius: 10;" text=" Delete Doctor ">
+            <font>
+                <Font name="Arial Bold" size="20.0" />
+            </font>
+            <textFill>
+                <Color fx:constant="DARKBLUE" />
+            </textFill>
+        </Label>
+        <TextField fx:id="ByDoctorID" layoutX="214.0" layoutY="103.0" promptText="Doctor ID" />
+        <Button fx:id="DeleteDoctor" layoutX="185.0" layoutY="174.0" mnemonicParsing="false" onAction="#DeleteDoctor" text="Delete">
+            <font>
+                <Font name="Arial Bold" size="14.0" />
+            </font>
+            <textFill>
+                <Color fx:constant="WHITE" />
+            </textFill>
+            <style>
+                -fx-background-color: #2196F3;
+                -fx-border-radius: 10;
+                -fx-background-radius: 10;
+                -fx-border-color: #00008b;
+            </style>
+            <graphic>
+                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../Desktop/DB_images/Delete2.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Label layoutX="86.0" layoutY="108.0" text="By Doctor ID">
+            <font>
+                <Font name="Arial Bold" size="14.0" />
+            </font>
+        </Label>
+        <Separator layoutX="100.0" layoutY="149.0" prefHeight="4.0" prefWidth="290.0" />
+    </children>
+</AnchorPane>

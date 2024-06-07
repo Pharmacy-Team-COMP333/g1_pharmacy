@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="481.0" prefWidth="690.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DoctorController">
+   <children>
+      <AnchorPane layoutX="-3.0" prefHeight="491.0" prefWidth="709.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <ImageView fitHeight="526.0" fitWidth="756.0" layoutX="-7.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Desktop/DB_images/Background1.jpg" />
+               </image>
+            </ImageView>
+            <Label layoutX="266.0" layoutY="21.0" text="Doctor Management">
+               <font>
+                  <Font name="Arial Bold" size="24.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="DARKBLUE" />
+               </textFill>
+            </Label>
+            <TableView fx:id="DoctorTable" layoutX="101.0" layoutY="95.0" prefHeight="152.0" prefWidth="553.0">
+               <columns>
+                  <TableColumn fx:id="DoctorIDColumn" prefWidth="83.0" text="Doctor ID" />
+                  <TableColumn fx:id="NameColumn" prefWidth="181.0" text="Name" />
+                  <TableColumn fx:id="SpecializationColumn" prefWidth="148.0" text="Specialization" />
+                  <TableColumn fx:id="PhoneNumberColumn" prefWidth="140.0" text="Phone Number" />
+               </columns>
+            </TableView>
+            <Button  layoutX="101.0" layoutY="251.0" mnemonicParsing="false" onAction="#SelectDoctor" text="Select Doctor">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="WHITE" />
+               </textFill>
+               <style>
+                  -fx-background-color: #4CAF50;
+               </style>
+            </Button>
+            <TextField fx:id="Search" layoutX="101.0" layoutY="64.0" promptText="Search" />
+            <Button fx:id="AddDoctor" layoutX="251.0" layoutY="425.0" mnemonicParsing="false" onAction="#AddDoctor" text="Add">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="WHITE" />
+               </textFill>
+               <style>
+                  -fx-background-color: #2196F3;
+               </style>
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Desktop/DB_images/Add2.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator layoutX="56.0" layoutY="288.0" prefHeight="5.0" prefWidth="650.0" />
+            <Button fx:id="UpdateDoctor" layoutX="339.0" layoutY="425.0" mnemonicParsing="false" onAction="#UpdateDoctor" text="Update">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="WHITE" />
+               </textFill>
+               <style>-fx-background-color: #2196F3;</style>
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Desktop/DB_images/Update2.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="DeleteDoctor" layoutX="447.0" layoutY="425.0" mnemonicParsing="false" onAction="#DeleteDoctor" text="Delete">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="WHITE" />
+                </textFill>
+               <style>-fx-background-color: #2196F3;</style>
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Desktop/DB_images/Delete2.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button   layoutX="609.0" layoutY="35.0" mnemonicParsing="false"  onAction="#Refresh" text="Refresh">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="WHITE" />
+               </textFill>
+               <style>-fx-background-color: #2196F3; -fx-border-radius: 10; -fx-background-radius: 10;</style>
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Downloads/refresh.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+
+            <Label layoutX="138.0" layoutY="309.0" text="Doctor ID">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="149.0" layoutY="345.0" text="Name">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="380.0" layoutY="308.0" text="Specialization">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="376.0" layoutY="345.0" text="Phone Number">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="DoctorIDTF" layoutX="209.0" layoutY="304.0" promptText="Doctor ID" />
+            <TextField fx:id="NameTF" layoutX="209.0" layoutY="341.0" promptText="Name" />
+            <TextField fx:id="SpecializationTF" layoutX="475.0" layoutY="304.0" promptText="Specialization" />
+            <TextField fx:id="PhoneNumberTF" layoutX="475.0" layoutY="340.0" promptText="Phone Number" />
+            <Button  layoutX="223.0" layoutY="379.0" mnemonicParsing="false" style="-fx-background-color: #00008b;" text="Update Selected" onAction="#UpdateSelectedDoctor">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="WHITE" />
+               </textFill>
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Desktop/DB_images/Update2.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button  layoutX="409.0" layoutY="379.0" mnemonicParsing="false" style="-fx-border-radius: 60; -fx-background-color: #00008b;" text="Delete Selected" onAction="#DeleteSelectedDoctor">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="WHITE" />
+               </textFill>
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Desktop/DB_images/Delete2.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="SearchB" layoutX="265.0" layoutY="64.0" mnemonicParsing="false" onAction="#SearchB" style="&#10;                  -fx-background-color: #4CAF50;&#10;               " text="Search">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="WHITE" />
+               </textFill>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
