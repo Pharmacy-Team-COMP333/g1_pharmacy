@@ -1,39 +1,30 @@
 package application;
 
+//Import Statements
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 
 public class AddDoctorController {
 
-    @FXML
-    private Button AddDoctor2;
+    // FXML Declarations for UI Components
+    @FXML private Button AddDoctor2;
+    @FXML private TextField DoctorIDTF;
+    @FXML private TextField NameTF;
+    @FXML private TextField PhoneNumberTF;
+    @FXML private TextField SpecializationTF;
 
-    @FXML
-    private TextField DoctorIDTF;
-
-    @FXML
-    private TextField NameTF;
-
-    @FXML
-    private TextField PhoneNumberTF;
-
-    @FXML
-    private TextField SpecializationTF;
-
+    
     @FXML
     void AddDoctor2(ActionEvent event) {
+        // Extracting information entered by the user from text fields for doctor details
         int doctorID;
         String name = NameTF.getText();
         String specialization = SpecializationTF.getText();
@@ -41,11 +32,7 @@ public class AddDoctorController {
 
         // Check if any text field is empty
         if (name.isEmpty() || specialization.isEmpty() || phoneNumber.isEmpty()) {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Empty Fields");
-            alert.setHeaderText(null);
-            alert.setContentText("Please fill in all fields.");
-            alert.showAndWait();
+            showAlert("Empty Fields", "Please fill in all fields.");
             return;
         }
 
@@ -53,57 +40,48 @@ public class AddDoctorController {
             doctorID = Integer.parseInt(DoctorIDTF.getText());
         } catch (NumberFormatException e) {
             // Handle the case where the doctorID is not a valid integer
-            System.out.println("Invalid doctor ID. Please enter a valid integer.");
+            showAlert("Invalid Doctor ID", "Please enter a valid integer for Doctor ID.");
             return;
         }
-        
+
         // Check if doctorID already exists
         if (isDoctorIdExists(doctorID)) {
-            return; // Exit method if doctorID exists
+            return;
         }
 
+        // Create a new Doctor object
         Doctor newDoctor = new Doctor(doctorID, name, specialization, phoneNumber);
         boolean insertedSuccessfully = insertDoctor(newDoctor);
-        
+
         if (insertedSuccessfully) {
-            // Show message box with the added doctor's information
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Doctor Added Successfully");
-            alert.setHeaderText(null);
-            alert.setContentText("New doctor added successfully!");
-            alert.showAndWait();
+            showAlert("Doctor Added Successfully", "New doctor added successfully!");
         } else {
-            System.out.println("Failed to add new doctor.");
-            // Optionally, you can show an error dialog box or a message to the user here
+            showAlert("Failed to Add Doctor", "Failed to add new doctor.");
         }
     }
 
+    // Check if a doctor with the given ID exists
     private boolean isDoctorIdExists(int doctorID) {
+        String query = "SELECT COUNT(*) FROM DOCTOR WHERE doctorID = ?";
         try (Connection conn = Connector.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement("SELECT COUNT(*) FROM DOCTOR WHERE doctorID = ?")) {
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, doctorID);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next() && resultSet.getInt(1) > 0) {
                 // Doctor ID exists, show message box
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Duplicate Doctor ID");
-                alert.setHeaderText(null);
-                alert.setContentText("Doctor ID already exists. Please enter a different ID.");
-                alert.showAndWait();
+                showAlert("Duplicate Doctor ID", "Doctor ID already exists. Please enter a different ID.");
                 return true;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-            return false; // Indicates failure
+            showAlert("Database Error", "An error occurred while accessing the database.");
         }
-        return false; // Doctor ID does not exist
+        return false;
     }
 
+    // Insert a new doctor into the database
     public boolean insertDoctor(Doctor doctor) {
         String query = "INSERT INTO DOCTOR (doctorID, name, specialization, phoneNumber) VALUES (?, ?, ?, ?)";
-
         try (Connection conn = Connector.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(query)) {
 
@@ -113,39 +91,20 @@ public class AddDoctorController {
             preparedStatement.setString(4, doctor.getPhoneNumber());
 
             int rowsInserted = preparedStatement.executeUpdate();
-            if (rowsInserted > 0) {
-                return true; // Indicates success
-            } else {
-                return false; // Indicates failure
-            }
+            return rowsInserted > 0;
         } catch (SQLException ex) {
             ex.printStackTrace();
-            return false; // Indicates failure
-        }catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-            return false; // Indicates failure
+            showAlert("Database Error", "An error occurred while accessing the database.");
+            return false;
         }
     }
-    public ObservableList<Doctor> getDoctor(String query) throws SQLException, ClassNotFoundException {
-        ObservableList<Doctor> doctorsList = FXCollections.observableArrayList();
-        
-        try (Connection conn = Connector.getConnection();
-             Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(query)) {
-            
-            Doctor doctor;
-            
-            if (!rs.isBeforeFirst()) {
-                System.out.println("No records found for the query: " + query);
-                return null;
-            } else {
-                while (rs.next()) {
-                    doctor = new Doctor(rs.getInt("doctorID"), rs.getString("name"), rs.getString("specialization"), rs.getString("phoneNumber"));
-                    doctorsList.add(doctor);
-                }
-            }
-        }
-        
-        return doctorsList;
+
+    // Show an alert dialog with the given title and content
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

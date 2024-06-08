@@ -1,5 +1,6 @@
 package application;
 
+// Import Statements
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,29 +8,22 @@ import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class AddDiseaseController {
 
-    @FXML
-    private Button AddDisease2;
+    // FXML Declarations for UI Components
+    @FXML private Button AddDisease2;
+    @FXML private TextField Description;
+    @FXML private TextField DiseaseID;
+    @FXML private TextField Name;
+    @FXML private TextField Treatment;
 
-    @FXML
-    private TextField Description;
-
-    @FXML
-    private TextField DiseaseID;
-
-    @FXML
-    private TextField Name;
-
-    @FXML
-    private TextField Treatment;
-
+    // Action event handler for adding a new disease
     @FXML
     void AddDisease2(ActionEvent event) {
+        // Extracting information entered by the user from text fields for disease details
         int diseaseID;
         String name = Name.getText();
         String description = Description.getText();
@@ -37,62 +31,57 @@ public class AddDiseaseController {
 
         // Check if any text field is empty
         if (name.isEmpty() || description.isEmpty() || treatment.isEmpty()) {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Empty Fields");
-            alert.setHeaderText(null);
-            alert.setContentText("Please fill in all fields.");
-            alert.showAndWait();
+            showAlert("Empty Fields", "Please fill in all fields.");
             return;
         }
 
         try {
             diseaseID = Integer.parseInt(DiseaseID.getText());
         } catch (NumberFormatException e) {
-            // Handle the case where the diseaseID is not a valid integer
-            System.out.println("Invalid disease ID. Please enter a valid integer.");
+            showAlert("Invalid Disease ID", "Please enter a valid integer for Disease ID.");
             return;
         }
 
         // Check if diseaseID already exists
         if (isDiseaseIdExists(diseaseID)) {
-            return; // Exit method if diseaseID exists
+            showAlert("Duplicate Disease ID", "Disease ID already exists. Please enter a different ID.");
+            return;
         }
 
+        // Create a new Disease object
         Disease newDisease = new Disease(diseaseID, name, description, treatment);
         boolean insertedSuccessfully = insertDisease(newDisease);
 
         if (insertedSuccessfully) {
-            // Show message box with the added disease's information
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Disease Added Successfully");
-            alert.setHeaderText(null);
-            alert.setContentText("New disease added successfully!");
-            alert.showAndWait();
+            showAlert("Disease Added Successfully", "New disease added successfully!");
         } else {
-            System.out.println("Failed to add new disease.");
-            // Optionally, you can show an error dialog box or a message to the user here
+            showAlert("Failed to Add Disease", "Failed to add new disease.");
         }
     }
 
-    private boolean isDiseaseIdExists(int id) {
+    // Check if a disease with the given ID exists
+    private boolean isDiseaseIdExists(int diseaseID) {
+        String query = "SELECT COUNT(*) FROM DISEASE WHERE diseaseID = ?";
         try (Connection conn = Connector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM disease WHERE Disease_ID = ?")) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            rs.next();
-            return rs.getInt(1) > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, diseaseID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next() && resultSet.getInt(1) > 0) {
+                // disease ID exists
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        return false;
+        return false; // Disease ID does not exist
     }
 
+    // Insert a new disease into the database
     public boolean insertDisease(Disease disease) {
+        String query = "INSERT INTO DISEASE (diseaseID, name, description, treatment) VALUES (?, ?, ?, ?)";
         try (Connection conn = Connector.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO DISEASE (diseaseID, name, description, treatment) VALUES (?, ?, ?, ?)")
-        ) {
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+
             preparedStatement.setInt(1, disease.getDiseaseID());
             preparedStatement.setString(2, disease.getName());
             preparedStatement.setString(3, disease.getDescription());
@@ -103,11 +92,16 @@ public class AddDiseaseController {
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false; // Indicates failure
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-            return false; // Indicates failure
         }
     }
 
-    // You can add other methods for handling database operations here
+    // Show an alert dialog with the given title and content
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
 }

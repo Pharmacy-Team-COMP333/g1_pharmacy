@@ -1,5 +1,6 @@
 package application;
 
+//Import Statements
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,62 +22,31 @@ import javafx.stage.Stage;
 
 public class DiseaseController {
 
-    @FXML
-    private Button AddDisease;
+    // FXML Declarations for UI Components
+    @FXML private Button AddDisease;
+    @FXML private Button DeleteDisease;
+    @FXML private Button DeleteSelected;
+    @FXML private TableColumn<Disease, String> DescriptionColumn;
+    @FXML private TextField DescriptionTF;
+    @FXML private TableColumn<Disease, Integer> DiseaseIDColumn;
+    @FXML private TextField DiseaseIDTF;
+    @FXML private TableView<Disease> DiseaseTable;
+    @FXML private TableColumn<Disease, String> NameColumn;
+    @FXML private TextField NameTF;
+    @FXML private Button Refresh;
+    @FXML private Button SearchB;
+    @FXML private TextField SearchTF;
+    @FXML private Button SelectDisease;
+    @FXML private TableColumn<Disease, String> TreatmentColumn;
+    @FXML private TextField TreatmentTF;
+    @FXML private Button UpdateDisease;
+    @FXML private Button UpdateSelected;
 
-    @FXML
-    private Button DeleteDisease;
-
-    @FXML
-    private Button DeleteSelected;
-
-    @FXML
-    private TableColumn<Disease, String> DescriptionColumn;
-
-    @FXML
-    private TextField DescriptionTF;
-
-    @FXML
-    private TableColumn<Disease, Integer> DiseaseIDColumn;
-
-    @FXML
-    private TextField DiseaseIDTF;
-
-    @FXML
-    private TableView<Disease> DiseaseTable;
-
-    @FXML
-    private TableColumn<Disease, String> NameColumn;
-
-    @FXML
-    private TextField NameTF;
-
-    @FXML
-    private Button Refresh;
-
-    @FXML
-    private Button SearchB;
-
-    @FXML
-    private TextField SearchTF;
-
-    @FXML
-    private Button SelectDisease;
-
-    @FXML
-    private TableColumn<Disease, String> TreatmentColumn;
-
-    @FXML
-    private TextField TreatmentTF;
-
-    @FXML
-    private Button UpdateDisease;
-
-    @FXML
-    private Button UpdateSelected;
-
+    
+    // ObservableList to store disease data
     private ObservableList<Disease> diseaseList = FXCollections.observableArrayList();
 
+    //Automatically after the FXML file is loaded
     @FXML
     void initialize() {
         DiseaseIDColumn.setCellValueFactory(new PropertyValueFactory<>("diseaseID"));
@@ -84,10 +54,12 @@ public class DiseaseController {
         DescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         TreatmentColumn.setCellValueFactory(new PropertyValueFactory<>("treatment"));
 
+        // Load data into the table
         loadDiseaseData();
     }
     
-    
+
+    //Load disease data from the database into the table
     private void loadDiseaseData() {
         diseaseList.clear();
         try (Connection conn = Connector.getConnection();
@@ -96,63 +68,39 @@ public class DiseaseController {
 
             while (rs.next()) {
                 diseaseList.add(new Disease(
-                    rs.getInt("DiseaseID"),
-                    rs.getString("Name"),
-                    rs.getString("Description"),
-                    rs.getString("Treatment")
+                        rs.getInt("DiseaseID"),
+                        rs.getString("Name"),
+                        rs.getString("Description"),
+                        rs.getString("Treatment")
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
         DiseaseTable.setItems(diseaseList);
     }
+    
 
+    //Open the Add Disease window
     @FXML
     void AddDisease(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("AddDisease.fxml"));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Add New Disease");
-            stage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        openStage("/AddDisease.fxml", "Add New Disease");
     }
 
+    //Open the Delete Disease window
     @FXML
     void DeleteDisease(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("DeleteDisease.fxml"));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Delete Disease");
-            stage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        openStage("/DeleteDisease.fxml", "Delete Disease");
     }
 
+    //Open the Update Disease window
     @FXML
     void UpdateDisease(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("UpdateDisease.fxml"));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Update Disease");
-            stage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        openStage("/UpdateDisease.fxml", "Update Disease");
     }
 
+    //Delete the selected disease
     @FXML
     void DeleteSelected(ActionEvent event) {
         Disease selectedDisease = DiseaseTable.getSelectionModel().getSelectedItem();
@@ -163,85 +111,73 @@ public class DiseaseController {
                 stmt.setInt(1, selectedDisease.getDiseaseID());
                 stmt.executeUpdate();
                 loadDiseaseData();
+                showAlert("Disease deleted successfully.");
             } catch (SQLException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-        } else {
-            showAlert("No Disease Selected , Please select a disease in the table.");
-        }
-    }
-
-    @FXML
-    private void UpdateSelected() {
-        // Get the selected disease from the table
-    	Disease selectedDisease= DiseaseTable.getSelectionModel().getSelectedItem();
-
-        // Check if a disease is selected
-        if (selectedDisease != null) {
-            // Retrieve the updated data from the text fields
-            String name = NameTF.getText();
-            String description = DescriptionTF.getText();
-            String treatment = TreatmentTF.getText();
-
-            // Update the selected disease with the new data
-            selectedDisease.setName(name);
-            selectedDisease.setDescription(description);
-            selectedDisease.setTreatment(treatment);
-
-            // Update the doctor record in the database
-            if (updateDisease(selectedDisease)) {
-                // If the update is successful, refresh the table
-            	loadDiseaseData();
-                showAlert("Disease updated successfully.");
-            } else {
-                showAlert("Failed to update Disease.");
+                showAlert("Error occurred while deleting the disease: " + e.getMessage());
             }
         } else {
-            // If no disease is selected, show an alert
+            showAlert("No Disease Selected. Please select a disease in the table.");
+        }
+        clearTextFields();
+    }
+
+    //Update the selected disease
+    @FXML
+    private void UpdateSelected(ActionEvent event) {
+        Disease selectedDisease = DiseaseTable.getSelectionModel().getSelectedItem();
+        if (selectedDisease != null) {
+            try {
+                String name = NameTF.getText();
+                String description = DescriptionTF.getText();
+                String treatment = TreatmentTF.getText();
+
+                selectedDisease.setName(name);
+                selectedDisease.setDescription(description);
+                selectedDisease.setTreatment(treatment);
+
+                if (updateDisease(selectedDisease)) {
+                    loadDiseaseData();
+                    clearTextFields();
+                    showAlert("Disease updated successfully.");
+                } else {
+                    showAlert("Failed to update disease.");
+                }
+            } catch (NumberFormatException e) {
+                showAlert("Invalid input. Please enter valid data.");
+            }
+        } else {
             showAlert("Please select a disease from the table.");
         }
+        clearTextFields();
     }
 
+    //Update a disease record in the database
     private boolean updateDisease(Disease disease) {
-        Connection connection = null;
-        PreparedStatement statement = null;
+        String query = "UPDATE disease SET name = ?, description = ?, treatment = ? WHERE diseaseID = ?";
+        try (Connection conn = Connector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
-        try {
-            connection = Connector.getConnection();
-            String query = "UPDATE disease SET name = ?, description = ?, treatment = ? WHERE diseaseID = ?";
-            statement = connection.prepareStatement(query);
-            statement.setString(1, disease.getName());
-            statement.setString(2, disease.getDescription());
-            statement.setString(3, disease.getTreatment());
-            statement.setInt(4, disease.getDiseaseID());
+            stmt.setString(1, disease.getName());
+            stmt.setString(2, disease.getDescription());
+            stmt.setString(3, disease.getTreatment());
+            stmt.setInt(4, disease.getDiseaseID());
 
-            int rowsAffected = statement.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 
+    //Refresh the table data
     @FXML
     void Refresh(ActionEvent event) {
         loadDiseaseData();
     }
 
+    //Search for diseases based on user input
     @FXML
     void SearchB(ActionEvent event) {
         String searchText = SearchTF.getText();
@@ -252,6 +188,7 @@ public class DiseaseController {
             stmt.setString(2, "%" + searchText + "%");
             stmt.setString(3, "%" + searchText + "%");
             stmt.setString(4, "%" + searchText + "%");
+
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 diseaseList.add(new Disease(
@@ -264,35 +201,51 @@ public class DiseaseController {
             DiseaseTable.setItems(diseaseList);
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+        }
     }
 
+    //Select a disease from the table and populate the text fields with its data
     @FXML
     void SelectDisease(ActionEvent event) {
-        // Get the selected doctor from the table
-    	Disease selectedDisease = DiseaseTable.getSelectionModel().getSelectedItem();
-
-        // Check if a Disease is selected
+        Disease selectedDisease = DiseaseTable.getSelectionModel().getSelectedItem();
         if (selectedDisease != null) {
-            // Populate the text fields with the selected doctor's data
-        	DiseaseIDTF.setText(String.valueOf(selectedDisease.getDiseaseID()));
+            DiseaseIDTF.setText(String.valueOf(selectedDisease.getDiseaseID()));
             NameTF.setText(selectedDisease.getName());
             DescriptionTF.setText(selectedDisease.getDescription());
             TreatmentTF.setText(selectedDisease.getTreatment());
         } else {
-            // If no disease is selected, show an alert
             showAlert("Please select a disease from the table.");
         }
     }
 
+    //Show an alert with a specific message
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    //Clear all text fields
+    private void clearTextFields() {
+        DiseaseIDTF.clear();
+        NameTF.clear();
+        DescriptionTF.clear();
+        TreatmentTF.clear();
+    }
+
+    //Open a new stage (window)
+    private void openStage(String fxmlFile, String title) {
+        try {
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle(title);
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

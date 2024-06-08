@@ -1,5 +1,6 @@
 package application;
 
+//Import Statements
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,65 +14,34 @@ import javafx.scene.control.Alert.AlertType;
 
 public class UpdateDoctorController {
 
-    @FXML
-    private TextField DoctorIDTF;
+    // FXML Declarations for UI Components
+    @FXML private TextField DoctorIDTF;
+    @FXML private TextField NameTF;
+    @FXML private TextField PhoneNumberTF;
+    @FXML private TextField SpecializationTF;
+    @FXML private Button UpdateDoctorB;
 
-    @FXML
-    private TextField NameTF;
 
-    @FXML
-    private TextField PhoneNumberTF;
 
-    @FXML
-    private TextField SpecializationTF;
-
-    @FXML
-    private Button UpdateDoctorB;
-
-    @FXML
-    void DoctorIDTF(ActionEvent event) {
-        // Handle action if needed
-    }
-
-    @FXML
-    void NameTF(ActionEvent event) {
-        // Handle action if needed
-    }
-
-    @FXML
-    void PhoneNumberTF(ActionEvent event) {
-        // Handle action if needed
-    }
-
-    @FXML
-    void SpecializationTF(ActionEvent event) {
-        // Handle action if needed
-    }
-
+    // Action event handler for updating Doctor information
     @FXML
     void UpdateDoctorB(ActionEvent event) {
         try {
             int doctorID = Integer.parseInt(DoctorIDTF.getText());
             if (!isDoctorIdExists(doctorID)) {
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Doctor ID Not Found");
-                alert.setHeaderText(null);
-                alert.setContentText("Doctor ID does not exist. Please enter a valid ID.");
-                alert.showAndWait();
+                showAlert("Doctor ID Not Found", "Doctor ID does not exist. Please enter a valid ID.");
                 return;
             }
 
             updateDoctor(doctorID);
 
         } catch (NumberFormatException e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Invalid Input");
-            alert.setHeaderText(null);
-            alert.setContentText("Please enter a valid Doctor ID.");
-            alert.showAndWait();
+            showAlert("Invalid Input", "Please enter a valid Doctor ID.");
         }
     }
+    
 
+    // Check if a doctor with the given ID exists in the database
     private boolean isDoctorIdExists(int doctorID) {
         String query = "SELECT COUNT(*) FROM DOCTOR WHERE doctorID = ?";
         try (Connection conn = Connector.getConnection();
@@ -82,67 +52,71 @@ public class UpdateDoctorController {
                 return true;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            showAlert("Database Error", "An error occurred while accessing the database.");
+        }
         return false;
     }
 
+    
+ // Update the doctor information in the database based on the given doctor ID
     private void updateDoctor(int doctorID) {
+        // Initialize variables to hold current values of doctor attributes
         String currentName = null;
         String currentPhoneNumber = null;
         String currentSpecialization = null;
 
+        // SQL query to fetch the current values of the doctor attributes
         String fetchQuery = "SELECT name, phoneNumber, specialization FROM DOCTOR WHERE doctorID = ?";
         try (Connection conn = Connector.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(fetchQuery)) {
+            // Set the parameter in the prepared statement to the given doctor ID
             preparedStatement.setInt(1, doctorID);
             ResultSet resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next()) {
                 currentName = resultSet.getString("name");
                 currentPhoneNumber = resultSet.getString("phoneNumber");
                 currentSpecialization = resultSet.getString("specialization");
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            showAlert("Database Error", "An error occurred while accessing the database.");
+        }
 
+        // Determine the updated values for the doctor attributes based on user input
         String updatedName = NameTF.getText().isEmpty() ? currentName : NameTF.getText();
         String updatedPhoneNumber = PhoneNumberTF.getText().isEmpty() ? currentPhoneNumber : PhoneNumberTF.getText();
         String updatedSpecialization = SpecializationTF.getText().isEmpty() ? currentSpecialization : SpecializationTF.getText();
 
+        // SQL query to update the doctor information in the database
         String updateQuery = "UPDATE DOCTOR SET name = ?, phoneNumber = ?, specialization = ? WHERE doctorID = ?";
         try (Connection conn = Connector.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(updateQuery)) {
+        	
             preparedStatement.setString(1, updatedName);
             preparedStatement.setString(2, updatedPhoneNumber);
             preparedStatement.setString(3, updatedSpecialization);
             preparedStatement.setInt(4, doctorID);
 
+            // Execute the update query and retrieve the number of rows affected
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setHeaderText(null);
-                alert.setContentText("Doctor data updated successfully.");
-                alert.showAndWait();
+                showAlert("Success", "Doctor data updated successfully.");
             } else {
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Failure");
-                alert.setHeaderText(null);
-                alert.setContentText("Failed to update doctor data.");
-                alert.showAndWait();
+                showAlert("Failure", "Failed to update doctor data.");
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            showAlert("Database Error", "An error occurred while updating the doctor data.");
+        }
+    }
+
+    
+    
+    // Show an alert dialog with the given title and content
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

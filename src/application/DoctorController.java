@@ -1,5 +1,6 @@
 package application;
 
+//Import Statements
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,12 +11,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.*;
 import java.util.Optional;
 
+
 public class DoctorController {
+
+    // FXML Declarations for UI Components
     @FXML private TableView<Doctor> DoctorTable;
     @FXML private TableColumn<Doctor, Integer> DoctorIDColumn;
     @FXML private TableColumn<Doctor, String> NameColumn;
@@ -31,34 +34,30 @@ public class DoctorController {
     @FXML private Button UpdateDoctor;
     @FXML private Button SearchB;
 
+    // ObservableList to store doctor data
     private ObservableList<Doctor> doctorsList = FXCollections.observableArrayList();
 
+    //Automatically after the fxml file is loaded
     @FXML
     void initialize() {
-        // Initialize table columns
         DoctorIDColumn.setCellValueFactory(new PropertyValueFactory<>("doctorID"));
         NameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         SpecializationColumn.setCellValueFactory(new PropertyValueFactory<>("specialization"));
         PhoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 
-        // Initialize doctorsList
-        doctorsList = FXCollections.observableArrayList();
-
-        // Load data into table
+        // Load data into the table
         loadDataIntoTable();
     }
 
+    //Load doctor data from the database into the table
     private void loadDataIntoTable() {
-        // Fetch data from database
-        ObservableList<Doctor> doctors = fetchDataFromDatabase();
+        doctorsList.setAll(fetchDataFromDatabase());
 
-        // Populate the doctorsList with the fetched data
-        doctorsList.setAll(doctors);
-
-        // Set the items in the table view
+        // Set the items in the table to the doctorsList
         DoctorTable.setItems(doctorsList);
     }
 
+    //Fetch doctor data from the database
     private ObservableList<Doctor> fetchDataFromDatabase() {
         ObservableList<Doctor> doctors = FXCollections.observableArrayList();
         Connection connection = null;
@@ -84,26 +83,16 @@ public class DoctorController {
                 String phoneNumber = resultSet.getString("phoneNumber");
 
                 // Create a Doctor object and add it to the list
-                Doctor doctor = new Doctor(doctorID, name, specialization, phoneNumber);
-                doctors.add(doctor);
+                doctors.add(new Doctor(doctorID, name, specialization, phoneNumber));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
+        } finally {
             // Close the resources
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -112,21 +101,25 @@ public class DoctorController {
         return doctors;
     }
 
+    //Open the Add Doctor window
     @FXML
     void AddDoctor(ActionEvent event) {
-        openStage("AddDoctor.fxml", "Add New Doctor");
+        openStage("/AddDoctor.fxml", "Add New Doctor");
     }
 
+    //Open the Delete Doctor window
     @FXML
     void DeleteDoctor(ActionEvent event) {
-        openStage("DeleteDoctor.fxml", "Delete Doctor");
+        openStage("/DeleteDoctor.fxml", "Delete Doctor");
     }
 
+    //Open the Update Doctor window
     @FXML
     void UpdateDoctor(ActionEvent event) {
-        openStage("UpdateDoctor.fxml", "Update Doctor");
+        openStage("/UpdateDoctor.fxml", "Update Doctor");
     }
 
+    //Open a new window with the specified FXML file and title
     private void openStage(String fxmlPath, String title) {
         try {
             Stage stage = new Stage();
@@ -140,6 +133,7 @@ public class DoctorController {
         }
     }
 
+    //Select a doctor from the table and populate the text fields with its data
     @FXML
     private void SelectDoctor() {
         // Get the selected doctor from the table
@@ -147,17 +141,16 @@ public class DoctorController {
 
         // Check if a doctor is selected
         if (selectedDoctor != null) {
-            // Populate the text fields with the selected doctor's data
             DoctorIDTF.setText(String.valueOf(selectedDoctor.getDoctorID()));
             NameTF.setText(selectedDoctor.getName());
             SpecializationTF.setText(selectedDoctor.getSpecialization());
             PhoneNumberTF.setText(selectedDoctor.getPhoneNumber());
         } else {
-            // If no doctor is selected, show an alert
             showAlert("Please select a doctor from the table.");
         }
     }
 
+    //Show an alert with the specified message
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
@@ -166,21 +159,25 @@ public class DoctorController {
         alert.showAndWait();
     }
 
+    //Refresh the table data
     @FXML
     private void Refresh() {
         loadDataIntoTable();
     }
 
+    //Search for doctors based on user input
     @FXML
     void SearchB(ActionEvent event) {
         String searchText = Search.getText().toLowerCase();
         doctorsList.clear();
+
         try (Connection conn = Connector.getConnection();
              PreparedStatement stmt = conn.prepareStatement("SELECT * FROM doctor WHERE doctorID LIKE ? OR name LIKE ? OR specialization LIKE ? OR phoneNumber LIKE ?")) {
             stmt.setString(1, "%" + searchText + "%");
             stmt.setString(2, "%" + searchText + "%");
             stmt.setString(3, "%" + searchText + "%");
             stmt.setString(4, "%" + searchText + "%");
+
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 doctorsList.add(new Doctor(
@@ -190,15 +187,14 @@ public class DoctorController {
                         rs.getString("phoneNumber")
                 ));
             }
+
             DoctorTable.setItems(doctorsList);
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+        }
     }
 
+    //Update the selected doctor
     @FXML
     private void UpdateSelectedDoctor() {
         // Get the selected doctor from the table
@@ -218,18 +214,19 @@ public class DoctorController {
 
             // Update the doctor record in the database
             if (updateDoctor(selectedDoctor)) {
-                // If the update is successful, refresh the table
                 loadDataIntoTable();
+                clearTextFields();
                 showAlert("Doctor updated successfully.");
             } else {
                 showAlert("Failed to update doctor.");
             }
         } else {
-            // If no doctor is selected, show an alert
             showAlert("Please select a doctor from the table.");
         }
+        clearTextFields();
     }
 
+    //Update a doctor in the database
     private boolean updateDoctor(Doctor doctor) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -250,31 +247,22 @@ public class DoctorController {
             int rowsAffected = statement.executeUpdate();
 
             // Check if the update operation was successful
-            if (rowsAffected > 0) {
-                return true;
-            }
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
+            return false;
+        } finally {
             // Close the resources
             try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-
-        return false;
     }
 
+    //Delete the selected doctor
     @FXML
     private void DeleteSelectedDoctor() {
         // Get the selected doctor from the table
@@ -293,21 +281,20 @@ public class DoctorController {
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 // Delete the selected doctor from the database
                 if (deleteDoctor(selectedDoctor)) {
-                    // Show success message
                     showAlert("Doctor deleted successfully.");
-
-                    // Refresh the table data
                     loadDataIntoTable();
+                    clearTextFields();
                 } else {
                     showAlert("Failed to delete doctor.");
                 }
             }
         } else {
-            // If no doctor is selected, show an alert
             showAlert("Please select a doctor from the table.");
         }
+        clearTextFields();
     }
 
+    //Delete a doctor from the database
     private boolean deleteDoctor(Doctor doctor) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -321,38 +308,35 @@ public class DoctorController {
             statement = connection.prepareStatement(query);
             statement.setInt(1, doctor.getDoctorID());
 
-            // Execute the update statement
+            // Execute the delete statement
             int rowsAffected = statement.executeUpdate();
 
             // Check if the delete operation was successful
-            if (rowsAffected > 0) {
-                return true;
-            }
+            return rowsAffected > 0;
         } catch (SQLException e) {
             // Check if the exception is due to foreign key constraint violation
             if (e.getMessage().toLowerCase().contains("foreign key constraint")) {
-                // Show a message to the user indicating that the doctor cannot be deleted
                 showAlert("Cannot delete doctor because it is referenced in other tables.");
             } else {
                 e.printStackTrace();
             }
-        } catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
+            return false;
+        } finally {
             // Close the resources
             try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+    }
 
-        return false;
+    //Clear the text fields
+    private void clearTextFields() {
+        DoctorIDTF.clear();
+        NameTF.clear();
+        SpecializationTF.clear();
+        PhoneNumberTF.clear();
     }
 }
