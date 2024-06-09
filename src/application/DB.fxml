@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="478.0" prefWidth="743.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DBController">
+   <children>
+      <AnchorPane layoutX="-3.0" prefHeight="464.0" prefWidth="749.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <ImageView fitHeight="526.0" fitWidth="756.0" layoutX="-7.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Desktop/DB_images/Background1.jpg" />
+               </image>
+            </ImageView>
+            <Label layoutX="232.0" layoutY="23.0" text="Pharmacy Dashboard">
+               <font>
+                  <Font name="Arial Bold" size="30.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="DARKBLUE" />
+               </textFill>
+            </Label>
+            <Button layoutX="630.0" layoutY="23.0" mnemonicParsing="false" onAction="#Refresh" text="Refresh">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="WHITE" />
+               </textFill>
+               <style>-fx-background-color: #2196F3; -fx-border-radius: 10; -fx-background-radius: 10;</style>
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Downloads/refresh.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator layoutX="55.0" orientation="VERTICAL" prefHeight="491.0" prefWidth="42.0" />
+            <Button fx:id="Doctor" layoutY="-6.0" mnemonicParsing="false" onAction="#Doctor" prefHeight="135.0" prefWidth="74.0" style="-fx-background-color: #2196F3;" text="Doctor" textAlignment="CENTER" textFill="#fffefe" />
+            <Button fx:id="Disease" layoutY="122.0" mnemonicParsing="false" onAction="#Disease" prefHeight="128.0" prefWidth="74.0" style="-fx-background-color: #2196F3;" text="Disease" textAlignment="CENTER" textFill="WHITE" />
+            <Button fx:id="Prescription" layoutY="246.0" mnemonicParsing="false" onAction="#Prescription" prefHeight="128.0" prefWidth="74.0" style="-fx-background-color: #2196F3;" text="Prescription" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+            <Button fx:id="Bill" layoutY="369.0" mnemonicParsing="false" onAction="#Bill" prefHeight="122.0" prefWidth="74.0" style="-fx-background-color: #2196F3;" text="Bill" textAlignment="CENTER" textFill="#f8f8f8" />
+            <TableView fx:id="Table1" layoutX="98.0" layoutY="192.0" prefHeight="108.0" prefWidth="256.0">
+              <columns>
+                <TableColumn fx:id="EmployeeName" prefWidth="140.0" text="Employee Name" />
+                <TableColumn fx:id="OrdersNumber" prefWidth="115.0" text="Orders Number" />
+              </columns>
+            </TableView>
+            <TableView fx:id="Table2" layoutX="417.0" layoutY="189.0" prefHeight="108.0" prefWidth="302.0">
+               <columns>
+                  <TableColumn fx:id="Item" prefWidth="110.0" text="Item" />
+                  <TableColumn fx:id="NumberOfSales" prefWidth="109.0" text="Number Of Sales" />
+                  <TableColumn fx:id="SalesValue" prefWidth="82.0" text="Sales Value" />
+               </columns>
+            </TableView>
+            <Label fx:id="Label1" layoutX="134.0" layoutY="80.0" prefHeight="69.0" prefWidth="153.0" style="-fx-border-color: #ffffff; -fx-border-radius: 15; -fx-background-radius: 15; -fx-background-color: #2196F3; -fx-border-width: 1;" textAlignment="CENTER" textFill="WHITE" />
+            <Label fx:id="Label2" layoutX="318.0" layoutY="80.0" prefHeight="69.0" prefWidth="153.0" style="-fx-border-color: #ffffff; -fx-border-radius: 15; -fx-background-radius: 15; -fx-background-color: #2196F3; -fx-border-width: 1;" textAlignment="CENTER" textFill="WHITE" />
+            <Label fx:id="Label3" layoutX="506.0" layoutY="80.0" prefHeight="69.0" prefWidth="153.0" style="-fx-border-color: #ffffff; -fx-border-radius: 15; -fx-background-radius: 15; -fx-background-color: #2196F3; -fx-border-width: 1;" textFill="WHITE" />
+            <LineChart fx:id="Chart" layoutX="97.0" layoutY="329.0" prefHeight="150.0" prefWidth="595.0" style="-fx-background-color: White;">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <Label layoutX="137.0" layoutY="166.0" text="The Best Employees">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="DARKBLUE" />
+               </textFill>
+            </Label>
+            <Label layoutX="490.0" layoutY="166.0" text="Best Selling Items">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="DARKBLUE" />
+               </textFill>
+            </Label>
+            <Label layoutX="216.0" layoutY="300.0" text="Comparison of Sales Between Categories">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+               <textFill>
+                  <Color fx:constant="DARKBLUE" />
+               </textFill>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Separator layoutX="-126.0" layoutY="129.0" prefWidth="200.0" />
+      <Separator layoutX="-126.0" layoutY="259.0" prefWidth="200.0" />
+      <Separator layoutX="-126.0" layoutY="379.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>
