@@ -26,6 +26,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
                   <Button fx:id="btnCat" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#Cat" prefHeight="110.0" prefWidth="291.0" stylesheets="@application.css" text="Categories" textFill="#4a4fda" GridPane.columnIndex="2">
@@ -44,7 +45,7 @@
                         </Label>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnLogOut" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#LogOut" prefHeight="130.0" prefWidth="283.0" stylesheets="@application.css" text="Logout" textFill="#4a4fda" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button fx:id="btnLogOut" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#LogOut" prefHeight="130.0" prefWidth="283.0" stylesheets="@application.css" text="Logout" textFill="#4a4fda" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <font>
                         <Font name="System Bold" size="19.0" />
                      </font>
@@ -134,6 +135,54 @@
                               <ImageView fitHeight="54.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../icons/cargo.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Label>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="Customer" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#cus" prefHeight="130.0" prefWidth="294.0" stylesheets="@application.css" text="Customer" textFill="#4a4fda" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                     <graphic>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="45.0" style="-fx-background-color: #ffffff;">
+                           <graphic>
+                              <ImageView fitHeight="63.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/4876261.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Label>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="Doctor" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#doc" prefHeight="130.0" prefWidth="294.0" stylesheets="@application.css" text="Doctor" textFill="#4a4fda" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                     <graphic>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="45.0" style="-fx-background-color: #ffffff;">
+                           <graphic>
+                              <ImageView fitHeight="63.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/R.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Label>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="Disease" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#Dis" prefHeight="130.0" prefWidth="294.0" stylesheets="@application.css" text="Disease " textFill="#4a4fda" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                     <graphic>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="45.0" style="-fx-background-color: #ffffff;">
+                           <graphic>
+                              <ImageView fitHeight="63.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/Disease-PNG-Clipart.png" />
                                  </image>
                               </ImageView>
                            </graphic>

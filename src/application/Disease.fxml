@@ -14,11 +14,11 @@
 
 <AnchorPane prefHeight="497.0" prefWidth="669.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DiseaseController">
    <children>
-      <AnchorPane prefHeight="496.0" prefWidth="669.0" style="-fx-background-color: #ffffff;">
+      <AnchorPane prefHeight="496.0" prefWidth="670.0" style="-fx-background-color: #ffffff;">
          <children>
-            <ImageView fitHeight="509.0" fitWidth="670.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="521.0" fitWidth="742.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../Desktop/DB_images/Background1.jpg" />
+                  <Image url="@../../icons/Background1.jpg" />
                </image>
             </ImageView>
             <TableView fx:id="DiseaseTable" layoutX="101.0" layoutY="95.0" prefHeight="142.0" prefWidth="461.0">
@@ -45,7 +45,7 @@
                <graphic>
                   <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Downloads/refresh.png" />
+                        <Image url="@../../icons/refresh1.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -76,7 +76,7 @@
                <graphic>
                   <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Desktop/DB_images/Update1.png" />
+                        <Image url="@../../icons/Update1.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -91,7 +91,7 @@
                <graphic>
                   <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Desktop/DB_images/add1.png" />
+                        <Image url="@../../icons/add1.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -106,7 +106,7 @@
                <graphic>
                   <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Desktop/DB_images/Delete1.png" />
+                        <Image url="@../../icons/Delete1.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -141,7 +141,7 @@
                <graphic>
                   <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Desktop/DB_images/Update1.png" />
+                        <Image url="@../../icons/Update1.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -156,7 +156,7 @@
                <graphic>
                   <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Desktop/DB_images/Delete1.png" />
+                        <Image url="@../../icons/Delete1.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -168,6 +168,15 @@
                <textFill>
                   <Color fx:constant="WHITE" />
                </textFill>
+            </Button>
+            <Button fx:id="btnback" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" prefHeight="7.0" prefWidth="113.0" styleClass="button2" stylesheets="@application.css" text="Back">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/icons8-back-64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
          </children>
       </AnchorPane>

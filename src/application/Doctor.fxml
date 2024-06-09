@@ -12,13 +12,13 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="481.0" prefWidth="690.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DoctorController">
+<AnchorPane prefHeight="481.0" prefWidth="690.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DoctorController">
    <children>
       <AnchorPane layoutX="-3.0" prefHeight="491.0" prefWidth="709.0" style="-fx-background-color: #ffffff;">
          <children>
             <ImageView fitHeight="526.0" fitWidth="756.0" layoutX="-7.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../Desktop/DB_images/Background1.jpg" />
+                  <Image url="@../../icons/Background1.jpg" />
                </image>
             </ImageView>
             <Label layoutX="266.0" layoutY="21.0" text="Doctor Management">
@@ -37,7 +37,7 @@
                   <TableColumn fx:id="PhoneNumberColumn" prefWidth="140.0" text="Phone Number" />
                </columns>
             </TableView>
-            <Button  layoutX="101.0" layoutY="251.0" mnemonicParsing="false" onAction="#SelectDoctor" text="Select Doctor">
+            <Button layoutX="101.0" layoutY="251.0" mnemonicParsing="false" onAction="#SelectDoctor" text="Select Doctor">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -62,7 +62,7 @@
                <graphic>
                   <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Desktop/DB_images/Add2.png" />
+                        <Image url="@../../icons/Add2.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -79,7 +79,7 @@
                <graphic>
                   <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Desktop/DB_images/Update2.png" />
+                        <Image url="@../../icons/Update2.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -95,12 +95,12 @@
                <graphic>
                   <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Desktop/DB_images/Delete2.png" />
+                        <Image url="@../../icons/Delete2.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button   layoutX="609.0" layoutY="35.0" mnemonicParsing="false"  onAction="#Refresh" text="Refresh">
+            <Button layoutX="609.0" layoutY="35.0" mnemonicParsing="false" onAction="#Refresh" text="Refresh">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
@@ -111,7 +111,7 @@
                <graphic>
                   <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Downloads/refresh.png" />
+                        <Image url="@../../icons/refresh1.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -141,7 +141,7 @@
             <TextField fx:id="NameTF" layoutX="209.0" layoutY="341.0" promptText="Name" />
             <TextField fx:id="SpecializationTF" layoutX="475.0" layoutY="304.0" promptText="Specialization" />
             <TextField fx:id="PhoneNumberTF" layoutX="475.0" layoutY="340.0" promptText="Phone Number" />
-            <Button  layoutX="223.0" layoutY="379.0" mnemonicParsing="false" style="-fx-background-color: #00008b;" text="Update Selected" onAction="#UpdateSelectedDoctor">
+            <Button layoutX="223.0" layoutY="379.0" mnemonicParsing="false" onAction="#UpdateSelectedDoctor" style="-fx-background-color: #00008b;" text="Update Selected">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
@@ -151,12 +151,12 @@
                <graphic>
                   <ImageView fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Desktop/DB_images/Update2.png" />
+                        <Image url="@../../icons/Update2.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button  layoutX="409.0" layoutY="379.0" mnemonicParsing="false" style="-fx-border-radius: 60; -fx-background-color: #00008b;" text="Delete Selected" onAction="#DeleteSelectedDoctor">
+            <Button layoutX="409.0" layoutY="379.0" mnemonicParsing="false" onAction="#DeleteSelectedDoctor" style="-fx-border-radius: 60; -fx-background-color: #00008b;" text="Delete Selected">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
@@ -166,7 +166,7 @@
                <graphic>
                   <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Desktop/DB_images/Delete2.png" />
+                        <Image url="@../../icons/Delete2.png" />
                      </image>
                   </ImageView>
                </graphic>

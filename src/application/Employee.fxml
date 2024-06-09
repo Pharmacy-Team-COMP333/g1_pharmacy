@@ -84,7 +84,7 @@
                <graphic>
                   <ImageView fitHeight="38.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../icons/icons8-cancel-48.png" />
+                        <Image url="@../../icons/delete.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -102,7 +102,7 @@
                <graphic>
                   <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../icons/addLogo.png" />
+                        <Image url="@../../icons/icons8-add-48.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
@@ -123,7 +123,7 @@
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../icons/updateLOGO.png" />
+                        <Image url="@../../icons/refresh.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
@@ -170,6 +170,7 @@
                   </ImageView>
                </graphic>
             </Button>
+            <Button fx:id="statistic" layoutX="52.0" layoutY="615.0" mnemonicParsing="false" onAction="#btnStatistics" prefHeight="42.0" prefWidth="244.0" style="-fx-background-radius: 20;" styleClass="record-sales" stylesheets="@application.css" text="Amount paid to employees" />
 
 			</children>
 		</AnchorPane>
