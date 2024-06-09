@@ -72,7 +72,7 @@ public class AddDoctorController {
                 showAlert("Duplicate Doctor ID", "Doctor ID already exists. Please enter a different ID.");
                 return true;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
             showAlert("Database Error", "An error occurred while accessing the database.");
         }
@@ -92,7 +92,7 @@ public class AddDoctorController {
 
             int rowsInserted = preparedStatement.executeUpdate();
             return rowsInserted > 0;
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
             showAlert("Database Error", "An error occurred while accessing the database.");
             return false;

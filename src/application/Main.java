@@ -13,7 +13,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 		
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("Disease.fxml"));
+			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Scene.fxml"));
 			Scene scene = new Scene(root,795,618);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);

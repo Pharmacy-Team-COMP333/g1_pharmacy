@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 
-public class staticsProfitsController {
+public class staticsProfitsController1 {
     @FXML
     private Label netIncome;
     @FXML
@@ -18,37 +18,37 @@ public class staticsProfitsController {
     private Label Profits;
     @FXML
     private PieChart paymentMethods;
+    @FXML
+    private Label employeePayments;  // Add this label to your FXML file
 
     @FXML
     public void initialize() {
         try {
             Connector.a.connectDB();
-            int num = 0;
+            // Number of orders
             PreparedStatement st2 = Connector.a.connectDB().prepareStatement("SELECT COUNT(*) FROM bill;");
             ResultSet r2 = st2.executeQuery();
             if (r2.next()) {
-                num = r2.getInt(1);
+                numOrders.setText(r2.getInt(1) + "");
             }
-            numOrders.setText(num + "");
 
-            double num2 = 0;
+            // Total profits
             PreparedStatement st3 = Connector.a.connectDB().prepareStatement("SELECT SUM(profits) FROM bill;");
             ResultSet r3 = st3.executeQuery();
             if (r3.next()) {
-                num2 = r3.getDouble(1);
+                Profits.setText(r3.getDouble(1) + "$");
             }
-            Profits.setText(num2 + "$");
 
-            double num3 = 0;
+            // Total net income
             PreparedStatement st4 = Connector.a.connectDB().prepareStatement("SELECT SUM(full_price) FROM bill;");
             ResultSet r4 = st4.executeQuery();
             if (r4.next()) {
-                num3 = r4.getDouble(1);
+                netIncome.setText(r4.getDouble(1) + "$");
             }
-            netIncome.setText(num3 + "$");
 
+            // Payment methods
             int cash = 0;
-            int insh = 0;
+            int insurance = 0;
 
             PreparedStatement st5 = Connector.a.connectDB().prepareStatement("SELECT COUNT(*) FROM bill WHERE bill_type = 'cash';");
             ResultSet r5 = st5.executeQuery();
@@ -59,36 +59,26 @@ public class staticsProfitsController {
             PreparedStatement st6 = Connector.a.connectDB().prepareStatement("SELECT COUNT(*) FROM bill WHERE bill_type = 'insurance';");
             ResultSet r6 = st6.executeQuery();
             if (r6.next()) {
-                insh = r6.getInt(1);
+                insurance = r6.getInt(1);
             }
 
-            // Print the values of cash and insh for debugging
-            System.out.println("Cash: " + cash);
-            System.out.println("Insurance: " + insh);
-
             ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                    new PieChart.Data("Insurance", insh),
+                    new PieChart.Data("Insurance", insurance),
                     new PieChart.Data("Cash", cash)
             );
             paymentMethods.setData(pieChartData);
-            paymentMethods.setStartAngle(90); // Adjust the starting angle
-            paymentMethods.setLabelsVisible(true); // Show data labels
+            paymentMethods.setStartAngle(90);
+            paymentMethods.setLabelsVisible(true);
 
-            // Apply custom colors using CSS
-            paymentMethods.getData().forEach(data -> {
-                String style = "";
-                if ("Cash".equals(data.getName())) {
-                    style = "-fx-pie-color: #ff7f50;"; // Coral color
-                } else if ("Insurance".equals(data.getName())) {
-                    style = "-fx-pie-color: #4682b4;"; // Steel blue color
-                }
-                data.getNode().setStyle(style);
-            });
+            // Total payments to employees
+            PreparedStatement st7 = Connector.a.connectDB().prepareStatement("SELECT SUM(payment_amount) FROM employee_payments;");
+            ResultSet r7 = st7.executeQuery();
+            if (r7.next()) {
+                employeePayments.setText("Total Payments to Employees: " + r7.getDouble(1) + "$");
+            }
 
             Connector.a.connectDB().close();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }

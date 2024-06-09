@@ -17,7 +17,7 @@ public class DeleteDiseaseController {
 
     // Action event handler for deleting a disease
     @FXML
-    void DeleteDisease2(ActionEvent event) {
+    void DeleteDisease2(ActionEvent event) throws ClassNotFoundException {
 
     	String idText = ByDiseaseID.getText();
         if (!idText.isEmpty()) {
@@ -43,7 +43,7 @@ public class DeleteDiseaseController {
     }
     
     // delete a disease from the database by its ID
-    private boolean deleteDiseaseByID(int diseaseID) throws SQLException {
+    private boolean deleteDiseaseByID(int diseaseID) throws SQLException, ClassNotFoundException {
         // Delete the disease record based on the ID
         try (Statement statement = Connector.getConnection().createStatement()) {
             String query = "DELETE FROM DISEASE WHERE diseaseID = " + diseaseID;

@@ -1,6 +1,8 @@
 package application;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -15,8 +17,8 @@ import javafx.scene.chart.XYChart;
 
 public class CategoryStatisticsController implements Initializable {
 
-	@FXML
-	private StackedBarChart<String, Number> barChart;
+    @FXML
+    private StackedBarChart<String, Number> barChart;
 
     @FXML
     private CategoryAxis xAxis;
@@ -24,18 +26,21 @@ public class CategoryStatisticsController implements Initializable {
     @FXML
     private NumberAxis yAxis;
 
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        String SQL = "SELECT c.cat_id, c.categories_name, COUNT(*) AS item_count " +
-                     "FROM categories c " +
-                     "JOIN item i ON c.cat_id = i.item_name " +
-                     "GROUP BY cat_id, categories_name " +
-                     "ORDER BY cat_id";
+    private Connection connection;
 
+    @Override
+    	public void initialize(URL arg0, ResourceBundle arg1) {
         try {
-            Connector.a.connectDB();
-            java.sql.Statement state = Connector.a.connectDB().createStatement();
-            ResultSet rs = state.executeQuery(SQL);
+            connection = Connector.a.connectDB();
+
+            String SQL = "SELECT c.cat_id, c.categories_name, COUNT(i.par_code) AS item_count " +
+                         "FROM categories c " +
+                         "LEFT JOIN item i ON c.cat_id = i.cat_id " +
+                         "GROUP BY c.cat_id, c.categories_name " +
+                         "ORDER BY c.cat_id";
+
+            PreparedStatement statement = connection.prepareStatement(SQL);
+            ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
                 int categoryId = rs.getInt("cat_id");
@@ -50,10 +55,18 @@ public class CategoryStatisticsController implements Initializable {
             }
 
             rs.close();
-            state.close();
-            Connector.a.connectDB().close();
-        } catch (ClassNotFoundException | SQLException e) {
+            statement.close();
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
+
 }

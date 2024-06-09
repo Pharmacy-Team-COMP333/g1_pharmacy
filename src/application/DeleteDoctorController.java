@@ -17,7 +17,7 @@ public class DeleteDoctorController {
 
     // Action event handler for deleting a doctor
     @FXML
-    void DeleteDoctor(ActionEvent event) {
+    void DeleteDoctor(ActionEvent event) throws ClassNotFoundException {
         String idText = ByDoctorID.getText();
         if (!idText.isEmpty()) {
             try {
@@ -41,7 +41,7 @@ public class DeleteDoctorController {
     }
 
     // delete a doctor from the database by its ID
-    private boolean deleteDoctorByID(int doctorID) throws SQLException {
+    private boolean deleteDoctorByID(int doctorID) throws SQLException, ClassNotFoundException {
         // Check if the doctor ID exists in the prescription table
         boolean existsInPrescriptionTable = false;
         try (Statement statement = Connector.getConnection().createStatement()) {

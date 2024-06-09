@@ -142,6 +142,27 @@ public class EmployeeController {
 
 	@FXML
 	private Label labelDaily;
+	
+    @FXML
+    private Button statistic;
+    
+    @FXML
+    void btnStatistics(ActionEvent event) {
+    	try {
+
+			Stage stage = new Stage();
+			Parent root;
+			root = FXMLLoader.load(getClass().getResource("employeeStatics.fxml"));
+			Scene scene = new Scene(root, 620, 507);
+			stage.setScene(scene);
+			stage.setTitle("Statistics");
+			stage.show();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+    }
 
 	boolean Contract = false;
 	boolean Hourly = true;

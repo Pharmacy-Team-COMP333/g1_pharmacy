@@ -87,7 +87,10 @@ public class DoctorController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
             // Close the resources
             try {
                 if (resultSet != null) resultSet.close();
@@ -104,19 +107,19 @@ public class DoctorController {
     //Open the Add Doctor window
     @FXML
     void AddDoctor(ActionEvent event) {
-        openStage("/AddDoctor.fxml", "Add New Doctor");
+        openStage("AddDoctor.fxml", "Add New Doctor");
     }
 
     //Open the Delete Doctor window
     @FXML
     void DeleteDoctor(ActionEvent event) {
-        openStage("/DeleteDoctor.fxml", "Delete Doctor");
+        openStage("DeleteDoctor.fxml", "Delete Doctor");
     }
 
     //Open the Update Doctor window
     @FXML
     void UpdateDoctor(ActionEvent event) {
-        openStage("/UpdateDoctor.fxml", "Update Doctor");
+        openStage("UpdateDoctor.fxml", "Update Doctor");
     }
 
     //Open a new window with the specified FXML file and title
@@ -191,7 +194,10 @@ public class DoctorController {
             DoctorTable.setItems(doctorsList);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        } catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     }
 
     //Update the selected doctor
@@ -248,7 +254,7 @@ public class DoctorController {
 
             // Check if the update operation was successful
             return rowsAffected > 0;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             return false;
         } finally {
@@ -313,7 +319,7 @@ public class DoctorController {
 
             // Check if the delete operation was successful
             return rowsAffected > 0;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             // Check if the exception is due to foreign key constraint violation
             if (e.getMessage().toLowerCase().contains("foreign key constraint")) {
                 showAlert("Cannot delete doctor because it is referenced in other tables.");

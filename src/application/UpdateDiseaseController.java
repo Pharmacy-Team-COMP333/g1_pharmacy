@@ -51,7 +51,7 @@ public class UpdateDiseaseController {
             if (resultSet.next() && resultSet.getInt(1) > 0) {
                 return true;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             showAlert("Database Error", "An error occurred while accessing the database.");
         }
         return false;
@@ -78,7 +78,10 @@ public class UpdateDiseaseController {
             }
         } catch (SQLException ex) {
             showAlert("Database Error", "An error occurred while accessing the database.");
-        }
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         // Determine the updated values for the disease attributes based on user input
         String updatedName = Name.getText().isEmpty() ? currentName : Name.getText();
@@ -104,7 +107,10 @@ public class UpdateDiseaseController {
             }
         } catch (SQLException ex) {
             showAlert("Database Error", "An error occurred while updating the disease data.");
-        }
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     // Show an alert dialog with the given title and content

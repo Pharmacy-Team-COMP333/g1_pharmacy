@@ -178,25 +178,33 @@ public class payment_methodController {
     @FXML
     void insertonAction(ActionEvent event) {
     	try {
-
-			Stage stage = new Stage();
-			Parent root;
-			root = FXMLLoader.load(getClass().getResource("payment_method.fxml"));
-			Scene scene = new Scene(root, 448, 263);
-			stage.setScene(scene);
-			stage.setTitle("Add paymentMethod");
-			stage.showAndWait();
-
+    		payment_method rc;
+			rc = new payment_method(Integer.parseInt(newID.getText()), newname.getText());
+			payment_method.pay= rc;
+			insertData(rc);
+			newID.clear();
+			newname.clear();
 		} catch (Exception e) {
-			// TODO: handle exception
+			showDialog(null, "Wrong input!!", "Please check the input again", AlertType.ERROR);
 		}
-		if (payment_method.pay != null) {
-			dataList.add(payment_method.pay);
-		}
-		payment_method.pay = null;
-		initialize();
     }
-
+    private void insertData(payment_method rc) {
+        try {
+            Connector.a.connectDB();
+            String sql = "INSERT INTO payment_method (paymentMethodID, name) VALUES (?, ?)";
+            PreparedStatement ps = Connector.a.connectDB().prepareStatement(sql);
+            ps.setInt(1, rc.getPaymentMethodID());
+            ps.setString(2, rc.getName()); // corrected method name
+            ps.execute();
+            Stage stage;
+            stage = (Stage) insert.getScene().getWindow();
+            stage.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     void updateonAction(ActionEvent event) {
     	try {

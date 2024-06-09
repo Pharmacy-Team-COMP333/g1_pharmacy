@@ -51,7 +51,7 @@ public class UpdateDoctorController {
             if (resultSet.next() && resultSet.getInt(1) > 0) {
                 return true;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             showAlert("Database Error", "An error occurred while accessing the database.");
         }
         return false;
@@ -80,7 +80,10 @@ public class UpdateDoctorController {
             }
         } catch (SQLException ex) {
             showAlert("Database Error", "An error occurred while accessing the database.");
-        }
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         // Determine the updated values for the doctor attributes based on user input
         String updatedName = NameTF.getText().isEmpty() ? currentName : NameTF.getText();
@@ -106,7 +109,10 @@ public class UpdateDoctorController {
             }
         } catch (SQLException ex) {
             showAlert("Database Error", "An error occurred while updating the doctor data.");
-        }
+        } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.staticsProfitsController1">
+   <children>
+      <Label fx:id="netIncome" layoutX="30" layoutY="40" text="Net Income"/>
+      <Label fx:id="numOrders" layoutX="30" layoutY="80" text="Total Orders"/>
+      <Label fx:id="Profits" layoutX="30" layoutY="120" text="Profits"/>
+      <PieChart fx:id="paymentMethods" layoutX="200" layoutY="40" prefHeight="200" prefWidth="300"/>
+      <Label fx:id="employeePayments" layoutX="30" layoutY="160" text="Total Payments to Employees"/>
+   </children>
+</AnchorPane>

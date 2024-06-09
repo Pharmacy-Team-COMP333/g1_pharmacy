@@ -225,23 +225,36 @@ public class CustomerController {
     @FXML
     void insertonAction(ActionEvent event) {
     	try {
-
-			Stage stage = new Stage();
-			Parent root;
-			root = FXMLLoader.load(getClass().getResource("customer.fxml"));
-			Scene scene = new Scene(root, 448, 263);
-			stage.setScene(scene);
-			stage.setTitle("Add customer");
-			stage.showAndWait();
-
+    		customer rc;
+			rc = new customer(Integer.parseInt(newID.getText()), newname.getText(), Newcontact.getText());
+			customer.cus= rc;
+			insertData(rc);
+			newID.clear();
+			newname.clear();
+			Newcontact.clear();
+				
 		} catch (Exception e) {
-			// TODO: handle exception
+			showDialog(null, "Wrong input!!", "Please check the input again", AlertType.ERROR);
 		}
-		if (customer.cus != null) {
-			dataList.add(customer.cus);
-		}
-		customer.cus = null;
-		initialize();
+    }
+    
+    private void insertData(customer rc) {
+        try {
+            Connector.a.connectDB();
+            String sql = "INSERT INTO customer (customerID, name, contactInfo) VALUES (?, ?, ?)";
+            PreparedStatement ps = Connector.a.connectDB().prepareStatement(sql);
+            ps.setInt(1, rc.getCustomerID());
+            ps.setString(2, rc.getName()); // corrected method name
+            ps.setString(3, rc.getContactInfo());
+            ps.execute();
+            Stage stage;
+            stage = (Stage) insert.getScene().getWindow();
+            stage.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

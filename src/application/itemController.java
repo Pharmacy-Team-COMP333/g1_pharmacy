@@ -179,6 +179,31 @@ public class itemController {
 
     @FXML
     private TextField NumberOfItems;
+    
+    @FXML
+    private Button statistic;
+    
+    @FXML
+    private Button statistic1;
+    
+
+    @FXML
+    void btnStatistics1(ActionEvent event) {
+    	try {
+
+			Stage stage = new Stage();
+			Parent root;
+			root = FXMLLoader.load(getClass().getResource("side_effect.fxml"));
+			Scene scene = new Scene(root, 620, 507);
+			stage.setScene(scene);
+			stage.setTitle("Statistics");
+			stage.show();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+    }
 
 
 	@FXML
@@ -775,6 +800,25 @@ ObservableList<Item> filter;
 		
 		TableData.setItems(filter);
 	    }
+    
+    
+    @FXML
+    void btnStatistics(ActionEvent event) {
+    	try {
+
+			Stage stage = new Stage();
+			Parent root;
+			root = FXMLLoader.load(getClass().getResource("itemstatic.fxml"));
+			Scene scene = new Scene(root, 620, 507);
+			stage.setScene(scene);
+			stage.setTitle("Statistics");
+			stage.show();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+    }
 	    
 
 

@@ -3,22 +3,53 @@ package application;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-public class Connector  {
-    private static final String HOST = "127.0.0.1";
-    private static final int PORT = 3306;
-    private static final String DB_NAME = "g1_pharmcy";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "hhaallaa562003";
+public class Connector {
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/g1_pharmcy";
+    private static final String USER = "root";
+    private static final String PASSWORD = "SAMI21135sami";
 
-    private static Connection connection;
+    private static Connection conn;
+    private static Statement stmt;
 
-    public static Connection getConnection() {
+    public static Connector a = new Connector();
+
+    public Connector() {
         try {
-            connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s", HOST, PORT, DB_NAME), USERNAME, PASSWORD);
-        } catch(SQLException se) {
-            se.printStackTrace();
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
-        return connection;
+    }
+    
+    public static Connection getConnection() throws ClassNotFoundException, SQLException {
+        if (conn == null || conn.isClosed()) {
+            conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        }
+        return conn;
+    }
+    
+
+    public Connection connectDB() throws ClassNotFoundException, SQLException {
+        conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        stmt = conn.createStatement();
+        return conn;
+    }
+
+    public Statement ExecuteStatement(String query) throws SQLException {
+        return (Statement) stmt.executeQuery(query);
+    }
+    
+    public void ExecuteUpdate(String SQL) throws SQLException {
+        try {
+            java.sql.Statement stmt = connectDB().createStatement();
+            stmt.executeUpdate(SQL);
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

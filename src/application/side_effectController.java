@@ -226,25 +226,36 @@ public class side_effectController {
     @FXML
     void insertonAction(ActionEvent event) {
     	try {
-
-			Stage stage = new Stage();
-			Parent root;
-			root = FXMLLoader.load(getClass().getResource("side_effect.fxml"));
-			Scene scene = new Scene(root, 448, 263);
-			stage.setScene(scene);
-			stage.setTitle("Add sideEffect");
-			stage.showAndWait();
-
+    		side_effect rc;
+			rc = new side_effect(Integer.parseInt(updateId.getText()), updatename.getText(), updatesev.getText());
+			side_effect.cus= rc;
+			insertData(rc);
+			newID.clear();
+			newname.clear();
+			Newsev.clear();
+				
 		} catch (Exception e) {
-			// TODO: handle exception
+			showDialog(null, "Wrong input!!", "Please check the input again", AlertType.ERROR);
 		}
-		if (side_effect.cus != null) {
-			dataList.add(side_effect.cus);
-		}
-		side_effect.cus = null;
-		initialize();
     }
-
+    private void insertData(side_effect rc) {
+        try {
+            Connector.a.connectDB();
+            String sql = "INSERT INTO side_effect (sideEffectID, name, severity) VALUES (?, ?, ?)";
+            PreparedStatement ps = Connector.a.connectDB().prepareStatement(sql);
+            ps.setInt(1, rc.getSideEffectID());
+            ps.setString(2, rc.getName()); // corrected method name
+            ps.setString(3, rc.getSeverity());
+            ps.execute();
+            Stage stage;
+            stage = (Stage) insert.getScene().getWindow();
+            stage.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     void updateonAction(ActionEvent event) {
     	try {

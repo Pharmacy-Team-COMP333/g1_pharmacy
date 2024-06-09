@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 //Import Statements
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,6 +42,8 @@ public class DiseaseController {
     @FXML private TextField TreatmentTF;
     @FXML private Button UpdateDisease;
     @FXML private Button UpdateSelected;
+    @FXML
+    private Button btnback;
 
     
     // ObservableList to store disease data
@@ -76,7 +79,10 @@ public class DiseaseController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        } catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
         DiseaseTable.setItems(diseaseList);
     }
@@ -85,19 +91,19 @@ public class DiseaseController {
     //Open the Add Disease window
     @FXML
     void AddDisease(ActionEvent event) {
-        openStage("/AddDisease.fxml", "Add New Disease");
+        openStage("AddDisease.fxml", "Add New Disease");
     }
 
     //Open the Delete Disease window
     @FXML
     void DeleteDisease(ActionEvent event) {
-        openStage("/DeleteDisease.fxml", "Delete Disease");
+        openStage("DeleteDisease.fxml", "Delete Disease");
     }
 
     //Open the Update Disease window
     @FXML
     void UpdateDisease(ActionEvent event) {
-        openStage("/UpdateDisease.fxml", "Update Disease");
+        openStage("UpdateDisease.fxml", "Update Disease");
     }
 
     //Delete the selected disease
@@ -115,7 +121,10 @@ public class DiseaseController {
             } catch (SQLException e) {
                 e.printStackTrace();
                 showAlert("Error occurred while deleting the disease: " + e.getMessage());
-            }
+            } catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         } else {
             showAlert("No Disease Selected. Please select a disease in the table.");
         }
@@ -168,7 +177,11 @@ public class DiseaseController {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        }
+        } catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return false;
     }
 
     //Refresh the table data
@@ -201,7 +214,10 @@ public class DiseaseController {
             DiseaseTable.setItems(diseaseList);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        } catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     }
 
     //Select a disease from the table and populate the text fields with its data
@@ -247,5 +263,24 @@ public class DiseaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    @FXML
+    void back(ActionEvent event) {
+    	try { // open new stage
+    		Stage stage;
+    		Parent root;
+    		stage = (Stage) btnback.getScene().getWindow();
+    		stage.close();
+    		root = FXMLLoader.load(getClass().getResource("Start.fxml"));
+    		Scene scene = new Scene(root, 901, 649);
+    		stage.setScene(scene);
+    		stage.setTitle("Chose One");
+    		stage.show();
+    		
+    	} catch (IOException e1) {
+    		
+    	}
+
     }
 }

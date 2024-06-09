@@ -13,6 +13,15 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class StartController {
+	
+    @FXML
+    private Button Customer;
+
+    @FXML
+    private Button Disease;
+
+    @FXML
+    private Button Doctor;
 
 	@FXML
 	private Button btnItem;
@@ -167,5 +176,58 @@ public class StartController {
 		alert.show();
 
 	}
+	
+    @FXML
+    void cus(ActionEvent event) {
+		try { // open new stage
+			Stage stage;
+			Parent root;
+			stage = (Stage) btnProv.getScene().getWindow();
+			stage.close();
+			root = FXMLLoader.load(getClass().getResource("customer.fxml"));
+			Scene scene = new Scene(root, 933, 725);
+			stage.setScene(scene);
+			stage.setTitle("provide company");
+			stage.show();
+
+		} catch (IOException e1) {
+		}
+
+    }
+
+    @FXML
+    void doc(ActionEvent event) {
+		try { // open new stage
+			Stage stage;
+			Parent root;
+			stage = (Stage) btnProv.getScene().getWindow();
+			stage.close();
+			root = FXMLLoader.load(getClass().getResource("Doctor.fxml"));
+			Scene scene = new Scene(root, 933, 725);
+			stage.setScene(scene);
+			stage.setTitle("provide company");
+			stage.show();
+
+		} catch (IOException e1) {
+		}
+    }
+    
+    @FXML
+    void Dis(ActionEvent event) {
+		try { // open new stage
+			Stage stage;
+			Parent root;
+			stage = (Stage) btnProv.getScene().getWindow();
+			stage.close();
+			root = FXMLLoader.load(getClass().getResource("Disease.fxml"));
+			Scene scene = new Scene(root, 933, 725);
+			stage.setScene(scene);
+			stage.setTitle("provide company");
+			stage.show();
+
+		} catch (IOException e1) {
+		}
+
+    }
 	
 }

@@ -70,7 +70,7 @@ public class AddDiseaseController {
                 // disease ID exists
                 return true;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
         return false; // Disease ID does not exist
@@ -89,7 +89,7 @@ public class AddDiseaseController {
 
             int rowsInserted = preparedStatement.executeUpdate();
             return rowsInserted > 0; // Indicates success if rows were inserted
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
             return false; // Indicates failure
         }

@@ -49,6 +49,7 @@ public class SceneController {
             st.setString(1, UserName.getText());
             st.setString(2, PassWord.getText());
             ResultSet r1 = st.executeQuery();
+            empId = 1;
 
             if (UserName.getText().isEmpty()) {
                 Message.displayMassage("Please enter the user name", "Warning");

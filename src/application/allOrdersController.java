@@ -275,7 +275,7 @@ public class allOrdersController {
 	@FXML
 	void showStattics(ActionEvent event) {
 
-		if (Manegar.mng.getName().equals("nathera alwan")) {
+		if (Manegar.mng.getName().equals("sami")) {
 			Scene scene;
 			Stage stage = null;
 			try { // open new stage
